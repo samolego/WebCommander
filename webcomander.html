@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebComander</title>
+    <link rel="stylesheet" type="text/css" href="./webcomander.css">
+</head>
+<body>
+    <div onclick="document.getElementById('consoleInputText').focus();">
+        <div class="console console-text" id="consoleDiv">
+          <p id="consoleText">
+            Welcome to WebComander
+          </p>
+          
+          <div id="consoleLines">
+            <!-- Commands that were used and their feedback are put here -->
+          </div>
+            <span id="consoleTyper">Username will be changed with js</span>
+            <input autocomplete="off" spellcheck="false" class="console-text" style="border: 0; outline: none; background-color: black;" type='text' id="consoleInputText">
+        </div>
+      </div>
+</body>
+<script src="./webcomander.js"></script>
+</html>
