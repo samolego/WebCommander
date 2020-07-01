@@ -104,11 +104,7 @@ class Console {
     // Create other HTML infrastructure
   }
   
-  // All the JS code to be added here
-  
-}
-
-var cmds = [
+  var cmds = [
 	{ command: "help", function: 'help' }, // 0
 	{ command: "?", function: 'help' }, // 1
 	{ command: "hide", function: 'consoleDiv.style.display = "none";' }, // 2
@@ -132,8 +128,8 @@ setCommands(cmds);
 
 
 // Some variables
-var consoleLines = document.getElementById("consoleLines");
-var consoleInput = document.getElementById("consoleInputText");
+var consoleLines = this.consoleLines;
+var consoleInput = this.consoleInputText;
 
 // Commmand history
 var selectedCmd = -1;
@@ -147,7 +143,7 @@ var hostname = "domain";
 
 
 // Styling the username@hostname
-var consoleTyper = document.getElementById("consoleTyper")
+var consoleTyper = this.consoleTyper;
 consoleTyper.style.color = getUsernameColor();
 consoleTyper.innerText = getUsername();
 
@@ -162,7 +158,7 @@ function consoleTyping(evt) {
 
 	// Enter was pressed
 	if ((evt.keyCode == 13) && (node.type=="text"))  {
-		this.consoleDiv = document.getElementById("consoleDiv");
+		this.consoleDiv = this.consoleDiv;
 		
 		// Adding used command to console lines
 		this.consoleLines.append(this.newLine("<span style='color:" + this.getUsernameColor() + ";'>" + this.getUsername() + "</span>" + this.consoleInput.value, "rgb(0, 255, 0)"));
@@ -362,3 +358,7 @@ function shrink() {
 	this.consoleDiv.style.height = "165px";
 	this.consoleLines.append(this.newLine("Using shrinked mode.", null));
 }
+  
+}
+
+
