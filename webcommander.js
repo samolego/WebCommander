@@ -67,10 +67,6 @@ function consoleTyping(evt) {
 		this.consoleInput.value = null;
 		// Scrolling to bottom of console
 		this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
-
-		// Changing colors and name (if superuser mode is active)
-		consoleTyper.style.color = getUsernameColor();
-		consoleTyper.innerText = getUsername();
 	}
 
 	// Up arrow was pressed
@@ -178,21 +174,44 @@ function help() {
 }
 
 function cd(dir) {
-	switch(dir[0]) {
-		case "..":
-			console.log(decodeURI(window.location.href));
-			break;
-		case ".":
-			location.reload();
-			break;
-		default:
-			window.location.href = cmd[0] + "/";
-			break;
+	var url = location.href;
+	url = url.split("/");
+
+	// Cutting away filename (e.g. index.html)
+	if(url[url.length - 1].includes(".")) {
+		url.splice(url.length - 1, url.length);
 	}
+
+	// Spliting dir path by slashes
+	dir = dir[0].split("/");
+
+	// Creating new url
+	var cutter = 1;
+	for(var i = 0; dir.length > 0; i++) {
+		if(dir[0].startsWith("..")) {
+			console.log("Dir up");
+			url.splice(url.length - 1, url.length - 0);
+		}
+		else if(cutter >= dir.length) {
+			break;
+		}
+		else if(dir[0] != "" && !dir[0].startsWith(".")) {
+			cutter++;
+		}
+		dir.splice(cutter - 1, cutter);
+
+	}
+	// Navigating to the new URL
+	url = url.join("/");
+	url = url.concat("/" + dir.join("/"));
+	location.href = url;
 }
 
 function pwd() {
-	console.log(decodeURI(location.href));
+	var url = location.href;
+	url = url.split("/");
+	url.splice(0, 3);
+	this.consoleLines.append(this.newLine(url.join("/"), null));
 }
 
 function kill() {
@@ -241,6 +260,9 @@ function su(cmd) {
 	}
 	else
 		this.sudoMode = false;
+	// Changing colors and name (if superuser mode is active)
+	consoleTyper.style.color = getUsernameColor();
+	consoleTyper.innerText = getUsername();
 }
 
 
