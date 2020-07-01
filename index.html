@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebCommander</title>
+    <!--link rel="stylesheet" type="text/css" href="webcommander.css"-->
+</head>
+  <body>
+    <h1>WebCommander</h1>
+    <p>
+      A simple and lightweight terminal emulator for web. For more info, visit
+      <a href="https://github.com/samolego/WebCommander/wiki" target="_blank">wiki</a>.
+    </p>
+    <!-- Console div -->
+    <div id="webCommander">
+    </div>
+  </body>
+  <script src="webcommander.js"></script>
+  <script>
+    var firstConsole = new WebCommander("webCommander");
+
+    // Configuring our own function for console
+    firstConsole.testFunction = (param) => {
+      console.log(param);
+    }
+
+    // Commands shoud be lowercase
+    // Make sure to not append () at the end of function name
+    firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "testFunction");
+  </script>
+</html>
