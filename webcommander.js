@@ -203,7 +203,9 @@ function cd(dir) {
 	}
 	// Navigating to the new URL
 	url = url.join("/");
-	url = url.concat("/" + dir.join("/"));
+	if(!url.endsWith("/"))
+		url = url.concat("/");
+	url = url.concat(dir.join("/"));
 	location.href = url;
 }
 
