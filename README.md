@@ -1,5 +1,5 @@
 # WebComander
-A simple and lightweight HTML + JS + CSS console imitation
+A simple and lightweight JS console imitation
 
 # Get it now
 Check out the (wiki)[https://github.com/samolego/WebComander/wiki]
@@ -10,7 +10,7 @@ Check out the (wiki)[https://github.com/samolego/WebComander/wiki]
 ```html
 <html>
   <head>
-    <script src="WebComander.js"></script>
+    <script src="WebCom.js"></script>
   </head>
 </html>
 ```
@@ -23,5 +23,5 @@ Add a DIV element where you want the console.
 ### Create the console:
 Use this JS code to create a new console within the previously created DIV element.
 ```js
-var myConsole = new WebComander.console('#console');
+var myConsole = new Console('console');
 ```
