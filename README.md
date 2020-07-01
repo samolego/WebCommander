@@ -1,5 +1,5 @@
 # WebComander
-A simple and lightweight HTML + JS + CSS console imitation.
+A simple and lightweight (~ 11 KB) HTML + JS + CSS console imitation.
 [Check it out](https://samolego.github.io/WebCommander)
 
 

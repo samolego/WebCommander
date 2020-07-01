@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebCommander</title>
-    <link rel="stylesheet" type="text/css" href="webcommander.css">
+    <!--link rel="stylesheet" type="text/css" href="webcommander.css"-->
 </head>
   <body>
     <h1>WebCommander</h1>
@@ -12,19 +12,21 @@
       A simple and lightweight terminal emulator for web. For more info, visit
       <a href="https://github.com/samolego/WebCommander/wiki" target="_blank">wiki</a>.
     </p>
-    <div onclick="document.getElementById('consoleInputText').focus();">
-      <div class="console console-text" id="consoleDiv">
-        <p>
-          Welcome to WebCommander
-        </p>
-        
-        <div id="consoleLines">
-          <!-- Commands that were used and their feedback are put here -->
-        </div>
-          <span id="consoleTyper">Username will be changed with js</span>
-          <input autocomplete="off" spellcheck="false" class="console-text" style="border: 0; outline: none; background-color: black;" type='text' id="consoleInputText">
-      </div>
+    <!-- Console div -->
+    <div id="webCommander">
     </div>
   </body>
   <script src="webcommander.js"></script>
+  <script>
+    var firstConsole = new WebCommander("webCommander");
+
+    // Configuring our own function for console
+    firstConsole.testFunction = (param) => {
+      console.log(param);
+    }
+
+    // Commands shoud be lowercase
+    // Make sure to not append () at the end of function name
+    firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "testFunction");
+  </script>
 </html>
