@@ -101,10 +101,10 @@ class Console {
     // Add content to the parent div
     this.parentElement.appendChild(this.consoleDiv);
     
-    // Create other HTML infrastructure
-  }
-  
-  var cmds = [
+   
+	  
+	  
+	    var cmds = [
 	{ command: "help", function: 'help' }, // 0
 	{ command: "?", function: 'help' }, // 1
 	{ command: "hide", function: 'consoleDiv.style.display = "none";' }, // 2
@@ -358,7 +358,5 @@ function shrink() {
 	this.consoleDiv.style.height = "165px";
 	this.consoleLines.append(this.newLine("Using shrinked mode.", null));
 }
-  
+  }
 }
-
-
