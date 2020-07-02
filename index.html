@@ -21,12 +21,21 @@
     var firstConsole = new WebCommander("webCommander");
 
     // Configuring our own function for console
-    firstConsole.testFunction = (param) => {
-      console.log(param);
+    firstConsole.testFunction = (self, args) => {
+      console.log(args);
+      self.writeLine("My awesome function. Args passed: " + args.join(" "), "yellow");
+    }
+
+
+    function globalFunction(self) {
+      self.writeLine("This function will be same in all consoles", "orange");
     }
 
     // Commands shoud be lowercase
     // Make sure to not append () at the end of function name
-    firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "testFunction");
+    // Watch "this" ;) (it should be present in local terminal functions, but not in global)
+    firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "this.testFunction");
+    firstConsole.AVAILABLE_COMMANDS_MAP.set("global", "globalFunction");
+
   </script>
 </html>

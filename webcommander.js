@@ -1,9 +1,7 @@
 // Define the CSS
 
-window.onload = defineCss();
-
-function defineCss() {
-    var style = document.createElement('style');
+window.onload = () => {
+    let style = document.createElement('style');
     style.type = 'text/css';
 	style.innerHTML = `
 	.console {
@@ -57,7 +55,7 @@ The main Class
 ********************/
 
 /**
- * This class has been adapted from fork <a href="https://github.com/pg008/WebComander/blob/onefile/webCom.js">onefile</a>
+ * Constructor of this class has been adapted from fork <a href="https://github.com/pg008/WebComander/blob/onefile/webCom.js">onefile</a>
  * 
  * @author pg008
  */
@@ -101,15 +99,15 @@ class WebCommander {
 
 		// Declaring commands
 		this.defaultCmds = [
-			{ command: "help", function: 'this.help' }, // 0
+			{ command: "help", function: 'help' }, // 0
 			{ command: "?", function: 'this.help' }, // 1
-			{ command: "hide", function: 'this.consoleDiv.style.display = "none";' }, // 2
-			{ command: "clear", function: 'this.consoleLines.innerHTML = null;' }, // 3
+			{ command: "hide", function: 'this.consoleDiv.style.display = "none"' }, // 2
+			{ command: "clear", function: 'this.consoleLines.innerHTML = null' }, // 3
 			{ command: "cd", function: 'this.cd' }, // 4
 			{ command: "pwd", function: 'this.pwd' }, // 5
 			{ command: "kill", function: 'this.kill' }, // 6
 			{ command: "exit", function: 'this.kill' }, // 7
-			{ command: "ping", function: 'this.consoleLines.append(this.newLine("pong", null));' }, // 8
+			{ command: "ping", function: 'this.writeLine("pong", null)' }, // 8
 			{ command: "extend", function: 'this.extend' }, // 9
 			{ command: "shrink", function: 'this.shrink' }, // 10
 			{ command: "sudo", function: 'this.sudo' }, // 11
@@ -126,15 +124,16 @@ class WebCommander {
 		this.selectedCmd = -1;
 		this.usedCmds = [];
 
+		// Other stuff
+		this.sudoMode = false;
 		this.username = "user";
 		this.hostname = "domain";
 
 		// Styling the "username@hostname"
-		this.consoleTyper.style.color = this.getUsernameColor();
-		this.consoleTyper.innerText = this.getUsername();
+		this.consoleTyper.style.color = this.getUsernameColor(this);
+		this.consoleTyper.innerText = this.getUsername(this);
 
-		
-		// This took to long to figure out ...
+		// Typing detection
 		this.consoleInput.onkeydown = (evt) => this.consoleTyping(evt);
 	}
 
@@ -146,13 +145,12 @@ class WebCommander {
 		// Enter was pressed
 		if ((evt.keyCode == 13) && (node.type=="text"))  {
 			// Adding used command to console lines
-			this.consoleLines.append(
-				this.newLine(
-					`<span style='color: ${this.getUsernameColor()};'> ${this.getUsername()}</span>${this.consoleInput.value}`,
-					"rgb(0, 255, 0)"
-					)
-				);
-			let c = this.consoleInput.value;
+			this.writeLine(
+				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.consoleInput.value}`,
+				"rgb(0, 255, 0)"
+					
+			);
+			var c = this.consoleInput.value;
 			if(c != "") {
 				this.usedCmds.unshift(c);
 				this.proccessCommand(c.toLowerCase().split(" "));
@@ -195,13 +193,16 @@ class WebCommander {
 			cmd.shift();
 			// Executing linked function
 			try {
-				eval(commandFeedback)(cmd);
-		
+				//this[`${commandFeedback}(${cmd})`]; // doesnt work
+				//window[`${commandFeedback}(${cmd})`]; // doesnt work
+				//window[commandFeedback](cmd); // doesnt work
+				//eval(`${commandFeedback}(${cmd})`); // cannot pass args
+				//eval(commandFeedback + "(" + cmd + ")"); // cannot pass args
+				eval(commandFeedback)(this, cmd); // "this" is lost
 			} catch(ignored) {
 				// Function was not defined
 				console.log(ignored);
 			}
-			return;
 		}
 		else
 			// Command was not found
@@ -224,6 +225,23 @@ class WebCommander {
 		}
 	}
 
+	/**
+	 * Writes a line to the console.
+	 * 
+	 * @param {*} command text to put in console
+	 * @param {*} color css color of the text (e.g. "red" for alert)
+	 */
+	writeLine(command, color) {
+		var response = document.createElement("SPAN");
+		if(color != null)
+			response.style.color = color;
+		else
+			response.style.color = "#ccff33";
+		response.innerHTML = command.concat("<br>");
+
+		this.consoleLines.append(response);
+	}
+
 
 	/**
 	 * Generates new text line as feedback for console.
@@ -232,7 +250,7 @@ class WebCommander {
 	 * @param {*} color css color of the text (e.g. "red" for alert)
 	 */
 	newLine(command, color) {
-		let response = document.createElement("SPAN");
+		var response = document.createElement("SPAN");
 		if(color != null)
 			response.style.color = color;
 		else
@@ -245,37 +263,37 @@ class WebCommander {
 	 * Gets "username@hostname" value, depending on sudo mode
 	 * @returns text, e.g. "user@domain:~ $ "
 	 */
-	getUsername() {
-		if(this.sudoMode)
-			return this.username + "@" + this.hostname + ":~ # ";
-		return this.username + "@" + this.hostname + ":~ $ ";
+	getUsername(self) {
+		if(self.sudoMode)
+			return self.username + "@" + self.hostname + ":~ # ";
+		return self.username + "@" + self.hostname + ":~ $ ";
 	}
 
 	/**
 	 * Gets username color depending on user perms
 	 * @returns color value, applicable to css style
 	 */
-	getUsernameColor() {
-		if(this.sudoMode)
+	getUsernameColor(self) {
+		if(self.sudoMode)
 			return "#75ffa5";
 		return "white";
 	}
 
 
-	/* -=-=-=-=-=-= */
+	/* -=-=-=-=-=-=-=-=- */
 
 	/* CONSOLE FUNCTIONS */
-	help() {
-		console.log(consoleLines);
-		this.consoleLines.append(this.newLine("Available commands:", null));
-		for(let c in this.AVAILABLE_COMMANDS_MAP) {
-			this.consoleLines.append(AVAILABLE_COMMANDS_MAP[c].key + ", ");
+	help(self) {
+		self.consoleLines.append("Available commands:");
+		console.log(self.AVAILABLE_COMMANDS_MAP);
+		for(const [c, value] of self.AVAILABLE_COMMANDS_MAP.entries) {
+			console.log(c);
+			self.consoleLines.append(self.AVAILABLE_COMMANDS_MAP[c].key.concat(", "));
 		}
-		
-		this.consoleLines.append(this.newLine("", null));
+		self.writeLine("", null);
 	}
 
-	cd(dir) {
+	cd(_self, dir) {
 		var url = location.href;
 		url = url.split("/");
 
@@ -310,16 +328,16 @@ class WebCommander {
 		location.href = url;
 	}
 
-	pwd() {
+	pwd(self) {
 		var url = location.href;
 		url = url.split("/");
 		url.splice(0, 3);
-		this.consoleLines.append(this.newLine(url.join("/"), null));
+		self.writeLine(url.join("/"), null);
 	}
 
-	kill() {
-		if(!this.sudoMode) {
-			this.consoleLines.append(this.newLine("Permission denied.", "red"));
+	kill(self) {
+		if(!self.sudoMode) {
+			self.writeLine("Permission denied.", "red");
 			return;
 		}
 		let w = window.open("", "_self");
@@ -327,17 +345,17 @@ class WebCommander {
 		w.close();
 	}
 
-	sudo(cmd) {
+	sudo(self, cmd) {
 		// Running with sudo privilegies
 		if(cmd[0] == "" || cmd[0] == null) {
-			this.consoleLines.append(this.newLine("\"sudo\" requires a command after it.", null));
+			self.writeLine("\"sudo\" requires a command after it.", null);
 			return;
 		}
-		this.sudoMode = true;
+		self.sudoMode = true;
 
 		// We should warn the user about sudo being used
-		this.consoleLines.append(this.newLine("<span style='color: #ff0f0f'>Warning! superuser mode used!</span>", null));
-		this.consoleLines.append(this.newLine("<span style='color: #ffea00'>Great power comes with great responsibility.</span>", null));
+		self.writeLine("<span style='color: #ff0f0f'>Warning! superuser mode used!</span>", null);
+		self.writeLine("<span style='color: #ffea00'>Great power comes with great responsibility.</span>", null);
 		
 		// Parsing the rest of the command
 		this.proccessCommand(cmd);
@@ -346,36 +364,48 @@ class WebCommander {
 		this.sudoMode = false;
 	}
 
-	su(cmd) {
+	su(self, cmd) {
+		console.log(this);
 		// su - switching user
-		if(cmd[0] == "" || cmd[0] == null) {
-			this.username = "root";
+		if(cmd[0] == "" || cmd[0] == null) 
+			self.username = "root";
+		else if(cmd[0] == "-" && cmd[1] != "" && cmd[1] != null)
+			self.username = cmd[1];
+		else {
+			self.writeLine("Usage: <br> su - \"username\"", null);
+			return;
 		}
-		else if(cmd[0] == "-" && cmd[1] != "" && cmd[1] != null) {
-			this.username = cmd[1];
-		}
-		else
-			this.consoleLines.append(this.newLine("Usage: <br> su - \"username\"", null));
 		
-		if(this.username == "root") {
-			this.sudoMode = true;
-			this.consoleLines.append(this.newLine("<span style='color: #ff0f0f'>Warning! Superuser mode active!</span>", null));
+		if(self.username == "root") {
+			self.sudoMode = true;
+			self.writeLine("<span style='color: #ff0f0f'>Warning! Superuser mode active!</span>", null);
 		}
 		else
-			this.sudoMode = false;
+			self.sudoMode = false;
+		
 		// Changing colors and name (if superuser mode is active)
-		consoleTyper.style.color = getUsernameColor();
-		consoleTyper.innerText = getUsername();
+		self.consoleTyper.style.color = self.getUsernameColor(self);
+		self.consoleTyper.innerText = self.getUsername(self);
 	}
 
-	extend() {
-		this.consoleDiv.style.height = (window.innerHeight - 20).toString() + "px";
-		this.consoleLines.append(this.newLine("Using extended mode.", null));
+	extend(self) {
+		self.consoleDiv.style.height = (window.innerHeight - 20).toString() + "px";
+		self.writeLine("Using extended mode.", null);
 	}
 
-	shrink() {
-		this.consoleDiv.style.height = "165px";
-		this.consoleLines.append(this.newLine("Using shrinked mode.", null));
+	shrink(self) {
+		self.consoleDiv.style.height = "165px";
+		self.writeLine("Using shrinked mode.", null);
 	}
   
+}
+
+
+// Global functions
+async function globalHelp(self) {
+	self.writeLine("Available commands:");
+	self.AVAILABLE_COMMANDS_MAP.forEach((_f, c) => {
+		self.consoleLines.append(c.concat(", "));
+	});
+	self.writeLine("", null);
 }
