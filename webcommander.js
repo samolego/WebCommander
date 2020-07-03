@@ -191,8 +191,6 @@ class WebCommander {
   			evt = (evt) ? evt : ((event) ? event : null);
   			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
-			if (evt.keyCode == "")
-			evt.keyCode = this.keyDownCode;
 
 				// Enter was pressed
 				if (evt.keyCode == 13)  {
@@ -230,6 +228,7 @@ class WebCommander {
       this.nonCharKey(evt);
     }
     if (isMobile) {
+	    alert("input");
 	    this.addCharacter(consoleHiddenInput.value);
 	    this.consoleHiddenInput.value = "";
     	}
