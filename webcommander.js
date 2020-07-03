@@ -264,8 +264,9 @@ class WebCommander {
 
     // Left arrow
 	else if (evt.keyCode == 37) {
-		alert("left");
+	
      if (this.inputStringIndex >= 1) {
+	     alert("ja");
   		  this.inputStringIndex -= 1;
         this.redrawInput();
       }
