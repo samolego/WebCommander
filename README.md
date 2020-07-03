@@ -7,7 +7,7 @@ A simple and lightweight (~ 11 KB) JS console imitation.
 # Get it now
 Check out the [wiki](https://github.com/samolego/WebComander/wiki)
 
-# Usage:
+# Usage
 
 ### Include the JavaScript file:
 ```html
