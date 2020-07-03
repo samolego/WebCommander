@@ -33,9 +33,9 @@ window.onload = () => {
 		outline: none;
 		background-color: black;
 	}
-  console-input:focus {
-    outline: none;
-  }
+  	console-input:focus {
+    		outline: none;
+  	}
 
 	::-webkit-scrollbar {
 		width: 6px;
@@ -59,6 +59,7 @@ window.onload = () => {
 	`
 
     document.getElementsByTagName('head')[0].appendChild(style);
+	var isMobile = true;
 }
 
 /*******************
@@ -95,17 +96,28 @@ class WebCommander {
 		this.inputValue = "";
   		this.inputStringIndex = 0;
 		this.consoleInput.innerHTML = "&block;";
-
+		
+		// Hidden input field for mobile devices
+		if (isMobile)
+			this.consoleHiddenInput = document.createElement("INPUT");
+		
+		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
-			this.consoleInput.focus();
+			if (!isMobile)
+				this.consoleInput.focus();
+			else
+				this.consoleHiddenInput.focus();
 		}
 
 		this.consoleDiv.appendChild(this.consoleText);
 		this.consoleDiv.appendChild(this.consoleLines);
 		this.consoleDiv.appendChild(this.consoleTyper);
 		this.consoleDiv.appendChild(this.consoleInput);
-
+		
+		if (isMobile)
+			this.consoleDiv.appendChild(this.consoleHiddenInput);
+		
 		// Add content to the parent div
 		this.parentElement.appendChild(this.consoleDiv);
 
@@ -149,6 +161,11 @@ class WebCommander {
 		// Typing detection
 		this.consoleInput.onkeypress = (evt) => this.consoleTyping(evt);
     		this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
+		
+		if (isMobile) {
+			this.consoleHiddenInput.onkeypress = (evt) => this.consoleTyping(evt);
+    			this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
+		}
 
 	}
 
