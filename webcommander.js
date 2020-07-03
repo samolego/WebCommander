@@ -211,7 +211,6 @@ class WebCommander {
   }
 
   nonCharKey(evt) {
-alert(evt.keyCode);
     // prevent scrolling on arrow keys
     evt.preventDefault();
 
@@ -265,6 +264,7 @@ alert(evt.keyCode);
 
     // Left arrow
 	else if (evt.keyCode == 37) {
+		alert("left");
      if (this.inputStringIndex >= 1) {
   		  this.inputStringIndex -= 1;
         this.redrawInput();
