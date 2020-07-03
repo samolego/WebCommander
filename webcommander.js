@@ -114,7 +114,8 @@ class WebCommander {
 		isMobile = mobileAndTabletCheck();
 		if (isMobile) {
 			this.consoleHiddenInput = document.createElement("INPUT");
-			this.consoleHiddenInput.style.marginTop = "-50px";
+			this.consoleHiddenInput.style.position = "relative";
+			this.consoleHiddenInput.style.top = "-50px";
 			this.consoleHiddenInput.style.opacity = 0;
 		}
 		
