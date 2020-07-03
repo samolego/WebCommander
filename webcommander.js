@@ -204,10 +204,12 @@ class WebCommander {
     if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       this.nonCharKey(evt);
     }
+else {
     if (isMobile) {
 	    this.addCharacter(this.consoleHiddenInput.value);
 	    this.consoleHiddenInput.value = "";
     	}
+}
   }
 
   nonCharKey(evt) {
