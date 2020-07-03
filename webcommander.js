@@ -90,15 +90,16 @@ class WebCommander {
 
 		// Create the input field
 		this.consoleInput = document.createElement("SPAN");
-    this.consoleInput.setAttribute("tabindex", "0");
-    this.consoleInput.className = "console-input";
+    		this.consoleInput.setAttribute("tabindex", "0");
+    		this.consoleInput.className = "console-input";
 		this.inputValue = "";
-    this.inputStringIndex = 0;
+  		this.inputStringIndex = 0;
 		this.consoleInput.innerHTML = "&block;";
 
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
 			this.consoleInput.focus();
+			prompt();
 		}
 
 		this.consoleDiv.appendChild(this.consoleText);
@@ -148,47 +149,47 @@ class WebCommander {
 
 		// Typing detection
 		this.consoleInput.onkeypress = (evt) => this.consoleTyping(evt);
-    this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
+    		this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
 
 	}
 
 	// Thanks to https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field
 	consoleTyping(evt) {
-    if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
-  		evt = (evt) ? evt : ((event) ? event : null);
-  		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+    		if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
+  			evt = (evt) ? evt : ((event) ? event : null);
+  			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
-      if (evt.keyCode == "")
-        evt.keyCode = this.keyDownCode;
+			if (evt.keyCode == "")
+			evt.keyCode = this.keyDownCode;
 
-  		// Enter was pressed
-  		if (evt.keyCode == 13)  {
-  			// Adding used command to console lines
-  			this.writeLine(
-  				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.inputValue}`,
-  				"rgb(0, 255, 0)"
+				// Enter was pressed
+				if (evt.keyCode == 13)  {
+					// Adding used command to console lines
+					this.writeLine(
+						`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.inputValue}`,
+						"rgb(0, 255, 0)"
 
-  			);
-  			var c = this.inputValue;
-  			if(c != "") {
-  				this.usedCmds.unshift(c);
-  				this.proccessCommand(c.toLowerCase().split(" "));
-  			}
+					);
+					var c = this.inputValue;
+					if(c != "") {
+						this.usedCmds.unshift(c);
+						this.proccessCommand(c.toLowerCase().split(" "));
+					}
 
-  			this.selectedCmd = -1;
-  			this.inputValue = "";
-        this.inputStringIndex = 0;
-        this.redrawInput();
-  			// Scrolling to bottom of console
-  			this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
+					this.selectedCmd = -1;
+					this.inputValue = "";
+					this.inputStringIndex = 0;
+					this.redrawInput();
+					// Scrolling to bottom of console
+					this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
+				}
+
+		      		else {
+					var char = String.fromCharCode(evt.keyCode);
+					this.addCharacter(char);
+		     		}
+    			}
   		}
-
-      else {
-        var char = String.fromCharCode(evt.keyCode);
-        this.addCharacter(char);
-      }
-    }
-  }
 
   // Check if an arrow key or backspace or delete was pressed
   // Arrow keys, backspace, delete don't work for the onkeypress event handler
@@ -231,8 +232,8 @@ class WebCommander {
 		}
 
     // Left arrow
-		else if (evt.keyCode == 37) {
-      if (this.inputStringIndex >= 1) {
+	else if (evt.keyCode == 37) {
+     if (this.inputStringIndex >= 1) {
   		  this.inputStringIndex -= 1;
         this.redrawInput();
       }
