@@ -228,8 +228,7 @@ class WebCommander {
       this.nonCharKey(evt);
     }
     if (isMobile) {
-	    alert("input");
-	    this.addCharacter(consoleHiddenInput.value);
+	    this.addCharacter(this.consoleHiddenInput.value);
 	    this.consoleHiddenInput.value = "";
     	}
   }
