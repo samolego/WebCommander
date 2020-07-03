@@ -180,8 +180,7 @@ class WebCommander {
     		this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
 		
 		if (isMobile) {
-			this.consoleHiddenInput.onkeypress = (evt) => this.consoleTyping(evt);
-    			this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
+    			this.consoleHiddenInput.onkeyup = (evt) => this.checkKeyCode(evt);	
 		}
 
 	}
@@ -230,8 +229,10 @@ class WebCommander {
     if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46) {
       this.nonCharKey(evt);
     }
-    if (isMobile)
+    if (isMobile) {
+	    this.addCharacter(consoleHiddenInput.value);
 	    this.consoleHiddenInput.value = "";
+    	}
   }
 
   nonCharKey(evt) {
