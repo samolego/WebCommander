@@ -211,7 +211,7 @@ class WebCommander {
   }
 
   nonCharKey(evt) {
-alert("a");
+alert(evt.keyCode);
     // prevent scrolling on arrow keys
     evt.preventDefault();
 
