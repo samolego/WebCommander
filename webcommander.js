@@ -7,7 +7,6 @@
  */
 
 
-var isMobile = true;
 
 window.onload = () => {
     let style = document.createElement('style');
@@ -110,20 +109,15 @@ class WebCommander {
 		this.consoleInput.innerHTML = "&block;";
 		
 		
-		// Hidden input field for mobile devices
-		isMobile = mobileAndTabletCheck();
-		if (isMobile) {
+		// Hidden input field
 			this.consoleHiddenInput = document.createElement("INPUT");
 			this.consoleHiddenInput.style.position = "relative";
 			this.consoleHiddenInput.style.top = "-50px";
 			this.consoleHiddenInput.style.opacity = 0;
-		}
 		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
-			if (!isMobile)
-				this.consoleInput.focus();
-			else
+		
 				this.consoleHiddenInput.focus();
 		}
 
@@ -132,7 +126,7 @@ class WebCommander {
 		this.consoleDiv.appendChild(this.consoleTyper);
 		this.consoleDiv.appendChild(this.consoleInput);
 		
-		if (isMobile)
+		
 			this.consoleDiv.appendChild(this.consoleHiddenInput);
 		
 		// Add content to the parent div
@@ -181,9 +175,9 @@ class WebCommander {
     		this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
 		*/
 		
-		if (isMobile) {
+		
     			this.consoleHiddenInput.onkeyup = (evt) => this.checkKeyCode(evt);	
-		}
+		
 
 	}
 
@@ -205,10 +199,10 @@ class WebCommander {
       this.nonCharKey(evt);
     }
 else {
-    if (isMobile) {
+    
 	    this.addCharacter(this.consoleHiddenInput.value);
 	    this.consoleHiddenInput.value = "";
-    	}
+    	
 }
   }
 
