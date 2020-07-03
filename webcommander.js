@@ -5,6 +5,10 @@
  *
  * @author samolego (styles), pg008 (JS integration)
  */
+
+
+var isMobile = true;
+
 window.onload = () => {
     let style = document.createElement('style');
     style.type = 'text/css';
@@ -59,7 +63,7 @@ window.onload = () => {
 	`
 
     document.getElementsByTagName('head')[0].appendChild(style);
-	var isMobile = true;
+
 }
 
 /*******************
