@@ -316,7 +316,6 @@ else {
   }
 
   redrawInput() {
-	  alert("redraw");
     this.consoleInput.innerHTML = this.inputValue.substr(0, this.inputStringIndex) + '&block;' + this.inputValue.substr(this.inputStringIndex + 1);
   }
 
