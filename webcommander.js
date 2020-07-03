@@ -189,10 +189,30 @@ class WebCommander {
 	consoleTyping(evt) {
     		if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
   			evt = (evt) ? evt : ((event) ? event : null);
-  			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null
+					var char = String.fromCharCode(evt.keyCode);
+					this.addCharacter(char);
+		     		}
+    			}
+  		}
 
+  // Check if the key is not a character
+  checkKeyCode(evt) {
+    if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
+      this.nonCharKey(evt);
+    }
+    if (isMobile) {
+	    this.addCharacter(this.consoleHiddenInput.value);
+	    this.consoleHiddenInput.value = "";
+    	}
+  }
 
-				// Enter was pressed
+  nonCharKey(evt) {
+
+    // prevent scrolling on arrow keys
+    evt.preventDefault();
+
+    // Enter was pressed
 				if (evt.keyCode == 13)  {
 					// Adding used command to console lines
 					this.writeLine(
@@ -214,32 +234,6 @@ class WebCommander {
 					this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
 				}
 
-		      		else {
-					var char = String.fromCharCode(evt.keyCode);
-					this.addCharacter(char);
-		     		}
-    			}
-  		}
-
-  // Check if an arrow key or backspace or delete was pressed
-  // Arrow keys, backspace, delete don't work for the onkeypress event handler
-  checkKeyCode(evt) {
-	  alert(evt.keyCode);
-    if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46) {
-      this.nonCharKey(evt);
-    }
-    if (isMobile) {
-	    this.addCharacter(this.consoleHiddenInput.value);
-	    this.consoleHiddenInput.value = "";
-    	}
-  }
-
-  nonCharKey(evt) {
-
-    // prevent scrolling on arrow keys
-    evt.preventDefault();
-
-    
     // Up arrow was pressed
 		if(evt.keyCode == 38) {
 			this.selectedCmd++;
