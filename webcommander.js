@@ -99,7 +99,6 @@ class WebCommander {
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
 			this.consoleInput.focus();
-			prompt();
 		}
 
 		this.consoleDiv.appendChild(this.consoleText);
