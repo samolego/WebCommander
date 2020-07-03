@@ -217,6 +217,8 @@ class WebCommander {
     if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46) {
       this.nonCharKey(evt);
     }
+    if (isMobile)
+	    this.consoleHiddenInput.value = "";
   }
 
   nonCharKey(evt) {
