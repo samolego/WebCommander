@@ -2,7 +2,7 @@
 
 /**
  * Creates the style for the WebCommander terminal
- * 
+ *
  * @author samolego (styles), pg008 (JS integration)
  */
 window.onload = () => {
@@ -26,30 +26,36 @@ window.onload = () => {
 	.console-feedback-text {
 		color: #ccff33;
 	}
+
+
 	.console-input {
 		border: 0;
 		outline: none;
 		background-color: black;
 	}
+  console-input:focus {
+    outline: none;
+  }
+
 	::-webkit-scrollbar {
 		width: 6px;
 	}
-	
+
 	/* Track */
 	::-webkit-scrollbar-track {
 		border-radius: 0px;
 	}
-	
+
 	/* Handle */
 	::-webkit-scrollbar-thumb {
-		background: #01802b; 
+		background: #01802b;
 	}
-	
+
 	/* Handle on hover */
 	::-webkit-scrollbar-thumb:hover {
-		background: #073f02; 
+		background: #073f02;
 	}
-	
+
 	`
 
     document.getElementsByTagName('head')[0].appendChild(style);
@@ -61,44 +67,45 @@ The main Class
 
 /**
  * Constructor of this class has been adapted from fork <a href="https://github.com/pg008/WebComander/blob/onefile/webCom.js">onefile</a>
- * 
+ *
  * @author pg008 (class & constructor), samolego (methods)
  */
 class WebCommander {
   	constructor(parent) {
 		this.parentElement = document.getElementById(parent);
-		
+
 		// Create the main DIV
 		this.consoleDiv = document.createElement("DIV");
 		this.consoleDiv.className = "console console-text";
-		
+
 		// Create the P for the content
 		this.consoleText = document.createElement("P");
 		this.consoleText.innerHTML = "Welcome to WebComander";
-		
+
 		// Create the DIV for the response
 		this.consoleLines = document.createElement("DIV");
-		
+
 		// Create the SPAN for username
 		this.consoleTyper = document.createElement("SPAN");
-		
+
 		// Create the input field
-		this.consoleInput = document.createElement("INPUT");
-		this.consoleInput.type = "text";
-		this.consoleInput.className = "console-text console-input";
-		this.consoleInput.setAttribute("autocomplete", "off");
-		this.consoleInput.setAttribute("spellcheck", "false");
+		this.consoleInput = document.createElement("SPAN");
+    this.consoleInput.setAttribute("tabindex", "0");
+    this.consoleInput.className = "console-input";
+		this.inputValue = "";
+    this.inputStringIndex = 0;
+		this.consoleInput.innerHTML = "&block;";
 
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
 			this.consoleInput.focus();
 		}
-		
+
 		this.consoleDiv.appendChild(this.consoleText);
 		this.consoleDiv.appendChild(this.consoleLines);
 		this.consoleDiv.appendChild(this.consoleTyper);
 		this.consoleDiv.appendChild(this.consoleInput);
-		
+
 		// Add content to the parent div
 		this.parentElement.appendChild(this.consoleDiv);
 
@@ -140,56 +147,141 @@ class WebCommander {
 		this.consoleTyper.innerText = this.getUsername(this);
 
 		// Typing detection
-		this.consoleInput.onkeydown = (evt) => this.consoleTyping(evt);
+		this.consoleInput.onkeypress = (evt) => this.consoleTyping(evt);
+    this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
+
 	}
 
 	// Thanks to https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field
-	consoleTyping(evt) { 
-		evt = (evt) ? evt : ((event) ? event : null); 
-		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+	consoleTyping(evt) {
+    if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
+  		evt = (evt) ? evt : ((event) ? event : null);
+  		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
-		// Enter was pressed
-		if ((evt.keyCode == 13) && (node.type=="text"))  {
-			// Adding used command to console lines
-			this.writeLine(
-				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.consoleInput.value}`,
-				"rgb(0, 255, 0)"
-					
-			);
-			var c = this.consoleInput.value;
-			if(c != "") {
-				this.usedCmds.unshift(c);
-				this.proccessCommand(c.toLowerCase().split(" "));
-			}
-			
-			this.selectedCmd = -1;
-			this.consoleInput.value = null;
-			// Scrolling to bottom of console
-			this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
-		}
+      if (evt.keyCode == "")
+        evt.keyCode = this.keyDownCode;
 
-		// Up arrow was pressed
-		else if((evt.keyCode == 38) && (node.type=="text")) {
+  		// Enter was pressed
+  		if (evt.keyCode == 13)  {
+  			// Adding used command to console lines
+  			this.writeLine(
+  				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.inputValue}`,
+  				"rgb(0, 255, 0)"
+
+  			);
+  			var c = this.inputValue;
+  			if(c != "") {
+  				this.usedCmds.unshift(c);
+  				this.proccessCommand(c.toLowerCase().split(" "));
+  			}
+
+  			this.selectedCmd = -1;
+  			this.inputValue = "";
+        this.inputStringIndex = 0;
+        this.redrawInput();
+  			// Scrolling to bottom of console
+  			this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
+  		}
+
+      else {
+        var char = String.fromCharCode(evt.keyCode);
+        this.addCharacter(char);
+      }
+    }
+  }
+
+  // Check if an arrow key or backspace or delete was pressed
+  // Arrow keys, backspace, delete don't work for the onkeypress event handler
+  checkKeyCode(evt) {
+    if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46) {
+      this.nonCharKey(evt);
+    }
+  }
+
+  nonCharKey(evt) {
+
+    // prevent scrolling on arrow keys
+    evt.preventDefault();
+
+    
+    // Up arrow was pressed
+		if(evt.keyCode == 38) {
 			this.selectedCmd++;
 			if(this.usedCmds[this.selectedCmd] != undefined)
-				this.consoleInput.value = this.usedCmds[this.selectedCmd];
+				this.inputValue = this.usedCmds[this.selectedCmd];
 			else {
-				this.consoleInput.value = "";
+				this.inputValue = "";
 				this.selectedCmd < this.usedCmds.length ? this.selectedCmd++: this.selectedCmd = this.usedCmds.length;
 			}
+      this.inputStringIndex = this.inputValue.length;
+      this.redrawInput();
 		}
 
 		// Down arrow
-		else if((evt.keyCode == 40) && (node.type=="text")) {
+		else if(evt.keyCode == 40) {
 			this.selectedCmd--;
 			if(this.usedCmds[this.selectedCmd] != undefined)
-				this.consoleInput.value = this.usedCmds[this.selectedCmd];
+				this.inputValue = this.usedCmds[this.selectedCmd];
 			else {
-				this.consoleInput.value = "";
+				this.inputValue = "";
 				this.selectedCmd > 0 ? this.selectedCmd--: this.selectedCmd = -1;
 			}
+      this.inputStringIndex = this.inputValue.length;
+      this.redrawInput();
 		}
-	}
+
+    // Left arrow
+		else if (evt.keyCode == 37) {
+      if (this.inputStringIndex >= 1) {
+  		  this.inputStringIndex -= 1;
+        this.redrawInput();
+      }
+		}
+
+    // Right arrow
+		else if (evt.keyCode == 39) {
+      if (this.inputStringIndex < this.inputValue.length) {
+  		  this.inputStringIndex += 1;
+        this.redrawInput();
+      }
+		}
+
+    // Backspace
+    else if (evt.keyCode == 8) {
+      this.removeCharacter();
+    }
+
+    // Delete
+    else if (evt.keyCode == 46) {
+      this.deleteCharacter();
+    }
+  }
+
+  addCharacter(char) {
+    var temp = [this.inputValue.slice(0, this.inputStringIndex), char, this.inputValue.slice(this.inputStringIndex)].join('');
+    this.inputValue = temp;
+    this.inputStringIndex += 1;
+    this.redrawInput();
+  }
+  removeCharacter() {
+    if (this.inputStringIndex >= 1) {
+      var temp = [this.inputValue.slice(0, this.inputStringIndex - 1), this.inputValue.slice(this.inputStringIndex)].join('');
+      this.inputValue = temp;
+      this.inputStringIndex -= 1;
+      this.redrawInput();
+    }
+  }
+  deleteCharacter() {
+    if (this.inputStringIndex <= this.inputValue.length) {
+      var temp = [this.inputValue.slice(0, this.inputStringIndex), this.inputValue.slice(this.inputStringIndex + 1)].join('');
+      this.inputValue = temp;
+      this.redrawInput();
+    }
+  }
+
+  redrawInput() {
+    this.consoleInput.innerHTML = this.inputValue.substr(0, this.inputStringIndex) + '&block;' + this.inputValue.substr(this.inputStringIndex + 1);
+  }
 
 	// Main snake of the console - command parser
 	async proccessCommand(cmd) {
@@ -207,7 +299,7 @@ class WebCommander {
 		else
 			// Command was not found
 			this.writeLine(
-				`${cmd[0]} is not a valid command. Type "help" or "?" for available commands.`, 
+				`${cmd[0]} is not a valid command. Type "help" or "?" for available commands.`,
 				null
 			);
 	}
@@ -224,7 +316,7 @@ class WebCommander {
 
 	/**
 	 * Writes a line to the console.
-	 * 
+	 *
 	 * @param {*} command text to put in console
 	 * @param {*} color css color of the text (e.g. "red" for alert)
 	 */
@@ -339,7 +431,7 @@ async function sudo(self, cmd) {
 	// We should warn the user about sudo being used
 	self.writeLine("<span style='color: #ff0f0f'>Warning! superuser mode used!</span>", null);
 	self.writeLine("<span style='color: #ffea00'>Great power comes with great responsibility.</span>", null);
-	
+
 	// Parsing the rest of the command
 	await self.proccessCommand(cmd);
 
@@ -350,7 +442,7 @@ async function sudo(self, cmd) {
 async function su(self, cmd) {
 	console.log(this);
 	// su - switching user
-	if(cmd[0] == "" || cmd[0] == null) 
+	if(cmd[0] == "" || cmd[0] == null)
 		self.username = "root";
 	else if(cmd[0] == "-" && cmd[1] != "" && cmd[1] != null)
 		self.username = cmd[1];
@@ -358,14 +450,14 @@ async function su(self, cmd) {
 		self.writeLine("Usage: <br> su - \"username\"", null);
 		return;
 	}
-	
+
 	if(self.username == "root") {
 		self.sudoMode = true;
 		self.writeLine("<span style='color: #ff0f0f'>Warning! Superuser mode active!</span>", null);
 	}
 	else
 		self.sudoMode = false;
-	
+
 	// Changing colors and name (if superuser mode is active)
 	self.consoleTyper.style.color = self.getUsernameColor(self);
 	self.consoleTyper.innerText = self.getUsername(self);
