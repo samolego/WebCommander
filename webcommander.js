@@ -175,6 +175,8 @@ class WebCommander {
 
 	// Thanks to https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field
 	consoleTyping(evt) {
+		if (isMobile)
+	    	this.consoleHiddenInput.value = "";
     		if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
   			evt = (evt) ? evt : ((event) ? event : null);
   			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
