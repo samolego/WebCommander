@@ -116,7 +116,7 @@ class WebCommander {
 			this.consoleHiddenInput = document.createElement("INPUT");
 			this.consoleHiddenInput.style.position = "relative";
 			this.consoleHiddenInput.style.top = "-50px";
-			this.consoleHiddenInput.style.opacity = 0;
+			this.consoleHiddenInput.style.opacity = 1;
 		}
 		
 		// Focus the input field on click
