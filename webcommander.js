@@ -224,6 +224,7 @@ class WebCommander {
   // Check if an arrow key or backspace or delete was pressed
   // Arrow keys, backspace, delete don't work for the onkeypress event handler
   checkKeyCode(evt) {
+	  alert(evt.keyCode);
     if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46) {
       this.nonCharKey(evt);
     }
