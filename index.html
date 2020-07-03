@@ -5,20 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebCommander</title>
     <link rel="stylesheet" type="text/css" href="presentation/skeleton.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="presentation/normalize.css">
+    <link rel="stylesheet" type="text/css" href="presentation/style.css">
+    <link rel="stylesheet" type="text/css" href="presentation/prism.css">
+    <script src="presentation/prism.js"></script>
     <!--link rel="stylesheet" type="text/css" href="webcommander.css"-->
 </head>
   <body>
-      <div class="section" style="background-image: url('presentation/wc-background.png');">
-    <h1>WebCommander</h1>
-      <p>by samolego and pg008</p>
-        <p>
-        A simple and lightweight terminal emulator for web. For more info, visit
-        <a href="https://github.com/samolego/WebCommander/wiki" target="_blank">wiki</a>.
-        </p>
+      <div class="section" style="background-image: url('presentation/wc-background.png'); background-size: cover;">
+        <div class="container white" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
+        <span style="font-size: 3em; color: #25c387;">Web</span><span style="font-size: 3em">Commander</span>
+          <p>by samolego</p>
+            <p>
+            Simple, powerful and lightweight terminal emulator for web.<br>Single JS file with easy-to-use API.
+            </p>
+            <div class="row">
+              <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/wiki" target="_blank"><i class="ri-book-2-fill"></i> Learn more!</a></div>
+              <div class="one-third column"><a class="button button-primary" href="#try"><i class="ri-arrow-down-line"></i> Try it out!</a></div>
+              <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/" target="_blank"><i class="ri-github-fill"></i> GitHub</a></div>
+            </div>
+      </div>
+      </div>
+
+      <div class="section gray-back" id="try">
+        <div class="row">
+          <div class="container">
+          <div class="one-half column"><h4>Try out some commands!</h4>
+            <p>Are you a linux user?
+            Using this console will be an easy task.<br>
+            If you are still wondering how it works, get started with typing "help" and see what you can do.</p>
+          </div>
+
+          <div class="one-half column" style="text-align: left;"><div id="webCommander">
+          </div></div>
+        </div>
+        </div>
+
+      </div>
+
+
+      <div class="section white" style="background-image: url('presentation/wc-background.png'); background-size: cover;">
+        <div class="container white" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
+        <h3>Including on the website</h3>
+        <h5>Learn to use the API.</h5>
+        <div class="row">
+          <div class="one-half column">
+        <pre><code class="language-markup">&lt;div id="myConsoleDiv">&lt;/div></code></pre>
+      </div>
+      <div class="one-half column" style="text-align: left;">
+        <p style="margin-top: 2em;">Create a DIV container for the Console.</p>
+      </div>
+      </div>
+        </div>
       </div>
     <!-- Console div -->
-    <div id="webCommander">
-    </div>
+
   </body>
   <script src="webcommander.js"></script>
   <script>
