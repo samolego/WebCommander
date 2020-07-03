@@ -112,9 +112,11 @@ class WebCommander {
 		
 		// Hidden input field for mobile devices
 		isMobile = mobileAndTabletCheck();
-		if (isMobile)
+		if (isMobile) {
 			this.consoleHiddenInput = document.createElement("INPUT");
-		
+			this.consoleHiddenInput.style.marginTop = "-50px";
+			this.consoleHiddenInput.style.opacity = 0;
+		}
 		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
