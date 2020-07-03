@@ -63,7 +63,7 @@ window.onload = () => {
 	`
 
     document.getElementsByTagName('head')[0].appendChild(style);
-    isMobile = mobileAndTabletCheck();
+    
 }
 
 // Thanks to https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
@@ -109,7 +109,9 @@ class WebCommander {
   		this.inputStringIndex = 0;
 		this.consoleInput.innerHTML = "&block;";
 		
+		
 		// Hidden input field for mobile devices
+		isMobile = mobileAndTabletCheck();
 		if (isMobile)
 			this.consoleHiddenInput = document.createElement("INPUT");
 		
