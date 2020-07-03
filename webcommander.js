@@ -116,7 +116,7 @@ class WebCommander {
 			this.consoleHiddenInput = document.createElement("INPUT");
 			this.consoleHiddenInput.style.position = "relative";
 			this.consoleHiddenInput.style.top = "-50px";
-			this.consoleHiddenInput.style.opacity = 1;
+			this.consoleHiddenInput.style.opacity = 0;
 		}
 		
 		// Focus the input field on click
@@ -211,7 +211,7 @@ class WebCommander {
   }
 
   nonCharKey(evt) {
-
+alert("a");
     // prevent scrolling on arrow keys
     evt.preventDefault();
 
