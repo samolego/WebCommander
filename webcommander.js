@@ -341,7 +341,7 @@ async function sudo(self, cmd) {
 	self.writeLine("<span style='color: #ffea00'>Great power comes with great responsibility.</span>", null);
 	
 	// Parsing the rest of the command
-	self.proccessCommand(cmd);
+	await self.proccessCommand(cmd);
 
 	// Disabling superuser
 	self.sudoMode = false;
