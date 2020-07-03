@@ -83,11 +83,9 @@ class WebCommander {
 		this.consoleTyper = document.createElement("SPAN");
 		
 		// Create the input field
-		this.consoleInput = document.createElement("INPUT");
-		this.consoleInput.type = "text";
-		this.consoleInput.className = "console-text console-input";
-		this.consoleInput.setAttribute("autocomplete", "off");
-		this.consoleInput.setAttribute("spellcheck", "false");
+		this.consoleInput = document.createElement("SPAN");
+		this.inputValue = "";
+		this.consoleInput.innerHTML = "&block";
 
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
