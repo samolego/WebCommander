@@ -221,7 +221,7 @@ else {
 					var c = this.inputValue;
 					if(c != "") {
 						this.usedCmds.unshift(c);
-						this.proccessCommand(c.toLowerCase().split(" "));
+						this.proccessCommand(c.split(" "));
 					}
 
 					this.selectedCmd = -1;
@@ -338,9 +338,9 @@ else {
 	 * Puts new commands to map of available commands
 	 * @param {*} commands an array of {command: "your_command", function: "functionToExecute"} elements
 	 */
-	setCommands(commands) {
+	setCommands(self, commands) {
 		for(let cmd in commands) {
-			this.AVAILABLE_COMMANDS_MAP.set(commands[cmd].command, commands[cmd].function);
+			self.AVAILABLE_COMMANDS_MAP.set(commands[cmd].command, commands[cmd].function);
 		}
 	}
 
