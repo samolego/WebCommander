@@ -176,7 +176,7 @@ class WebCommander {
 		*/
 		
 		
-    			this.consoleHiddenInput.onkeyup = (evt) => this.checkKeyCode(evt);	
+    		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
 		
 
 	}
