@@ -113,6 +113,8 @@ class WebCommander {
 			this.consoleHiddenInput = document.createElement("INPUT");
 			this.consoleHiddenInput.style.position = "relative";
 			this.consoleHiddenInput.style.top = "-50px";
+			this.consoleHiddenInput.setAttribute("autocomplete", "off");
+			this.consoleHiddenInput.setAttribute("maxlength", 1);
 			this.consoleHiddenInput.style.opacity = 1;
 		
 		// Focus the input field on click
@@ -176,7 +178,7 @@ class WebCommander {
 		*/
 		
 		
-    		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
+    		this.consoleHiddenInput.onkeyup = (evt) => this.checkKeyCode(evt);	
 		
 
 	}
@@ -201,9 +203,10 @@ class WebCommander {
 else {
     
 	    this.addCharacter(this.consoleHiddenInput.value);
-	    this.consoleHiddenInput.value = "";
-    	
 }
+	this.consoleHiddenInput.value = "";
+    	
+
   }
 
   nonCharKey(evt) {
