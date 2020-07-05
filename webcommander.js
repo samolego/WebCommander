@@ -215,7 +215,7 @@ class WebCommander {
   // Check if the key is not a character
   checkKeyCode(evt) {
 	evt.preventDefault();
-	this.consoleHiddenInput.value = null;
+	//this.consoleHiddenInput.value = null;
     	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       		this.nonCharKey(evt);
     	} else if (evt.key.length == 1 && !isMobile) {
@@ -224,6 +224,7 @@ class WebCommander {
   }
 
 	copyHidden() {
+		alert("copy");
 		if (isMobile)
 			this.addCharacter(this.consoleHiddenInput.value);
 	}
