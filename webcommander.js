@@ -70,6 +70,7 @@ window.onload = () => {
     
 }
 
+
 // Thanks to https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
 function mobileAndTabletCheck() {
   let check = false;
@@ -77,6 +78,7 @@ function mobileAndTabletCheck() {
   return check;
 }
 
+var isMobile = mobileAndTabletCheck();
 
 /*******************
 The main Class
@@ -193,7 +195,9 @@ class WebCommander {
 		
 		
     		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
-		
+		if (isMobile) {
+			this.consoleHiddenInput.onkeyup = () => this.copyHidden();
+		}
 
 	}
 
@@ -215,11 +219,14 @@ class WebCommander {
 	this.consoleHiddenInput.value = "";
     	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       		this.nonCharKey(evt);
-    	} else if (evt.key.length == 1) {
+    	} else if (evt.key.length == 1 && isMobile) {
 		this.addCharacter(evt.key);
 	}
   }
 
+	copyHidden() {
+		this.addCharacter(this.consoleHiddenInput.value);
+	}
   nonCharKey(evt) {
     // prevent scrolling on arrow keys
     evt.preventDefault();
