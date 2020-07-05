@@ -183,7 +183,7 @@ class WebCommander {
 		
 		
     		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
-		this.consoleHiddenInput.onkeypress = () => this.addCharacter(this.consoleHiddenInput.value);	
+		this.consoleHiddenInput.onkeyup = () => this.checkLetter();	
 		
 
 	}
@@ -208,6 +208,9 @@ class WebCommander {
     	}
   }
 
+checkLetter() {
+	this.addCharacter(this.consoleHiddenInput.value);
+}
   nonCharKey(evt) {
     // prevent scrolling on arrow keys
     evt.preventDefault();
@@ -292,7 +295,7 @@ class WebCommander {
   addCharacter(char) {
     var temp = [this.inputValue.slice(0, this.inputStringIndex), char, this.inputValue.slice(this.inputStringIndex)].join('');
     this.inputValue = temp;
-    this.inputStringIndex += 1;
+    this.inputStringIndex += char.length;
     this.redrawInput();
   }
   removeCharacter() {
