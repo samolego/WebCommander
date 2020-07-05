@@ -110,15 +110,16 @@ class WebCommander {
 		
 		
 		// Hidden input field
-			this.consoleHiddenInput = document.createElement("INPUT");
-			this.consoleHiddenInput.style.position = "relative";
-			this.consoleHiddenInput.type = "email";
-			this.consoleHiddenInput.style.top = "-50px";
-			this.consoleHiddenInput.setAttribute("autocomplete", "off");
-			this.consoleHiddenInput.setAttribute("maxlength", 1);
-			this.consoleHiddenInput.setAttribute("autocorrect", "off");
-			this.consoleHiddenInput.setAttribute("autocapitalize", "none");
-			this.consoleHiddenInput.style.opacity = 0;
+		this.consoleHiddenInput = document.createElement("INPUT");
+		this.consoleHiddenInput.style.position = "absolute";
+		this.consoleHiddenInput.type = "email";
+		this.consoleHiddenInput.style.top = "-50px";
+		this.consoleHiddenInput.style.display = "block";
+		this.consoleHiddenInput.setAttribute("autocomplete", "off");
+		this.consoleHiddenInput.setAttribute("maxlength", 1);
+		this.consoleHiddenInput.setAttribute("autocorrect", "off");
+		this.consoleHiddenInput.setAttribute("autocapitalize", "none");
+		this.consoleHiddenInput.style.opacity = 0;
 		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
@@ -181,7 +182,7 @@ class WebCommander {
 		*/
 		
 		
-    		this.consoleHiddenInput.onkeyup = (evt) => this.checkKeyCode(evt);	
+    		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
 		
 
 	}
@@ -200,17 +201,14 @@ class WebCommander {
 */
   // Check if the key is not a character
   checkKeyCode(evt) {
-    if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
-      this.nonCharKey(evt);
-    }
-else {
-    
-	    this.addCharacter(this.consoleHiddenInput.value);
-}
+    	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
+      		this.nonCharKey(evt);
+    	}
+	else {
+    		this.consoleHiddenInput.onkeypress = () => this.addCharacter(this.consoleHiddenInput.value);
+	}
 	this.consoleHiddenInput.value = "";
-    	
-
-  }
+    }
 
   nonCharKey(evt) {
     // prevent scrolling on arrow keys
