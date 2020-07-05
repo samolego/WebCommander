@@ -183,13 +183,13 @@ class WebCommander {
 		
 		
     		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
-		this.consoleHiddenInput.onkeyup = () => this.checkLetter();	
+		//this.consoleHiddenInput.onkeyup = () => this.checkLetter();	
 		
 
 	}
 
 	// Thanks to https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field
-	/*
+	/*js onkeydown this
 	consoleTyping(evt) {
     		if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
   			evt = (evt) ? evt : ((event) ? event : null);
@@ -205,7 +205,9 @@ class WebCommander {
 	this.consoleHiddenInput.value = "";
     	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       		this.nonCharKey(evt);
-    	}
+    	} else if (evt.key.length == 1) {
+		this.addCharacter(evt.key);
+	}
   }
 
 checkLetter() {
