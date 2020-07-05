@@ -90,7 +90,10 @@ The main Class
 class WebCommander {
   	constructor(parent) {
 		this.parentElement = document.getElementById(parent);
-
+		
+		//Cursor style
+		this.textCursorSymbol = "&#9612;";
+		
 		// Create the main DIV
 		this.consoleDiv = document.createElement("DIV");
 		this.consoleDiv.className = "console console-text";
@@ -180,8 +183,7 @@ class WebCommander {
 		this.consoleTyper.style.color = this.getUsernameColor(this);
 		this.consoleTyper.innerText = this.getUsername(this);
 		
-		//Cursor style
-		this.textCursorSymbol = "&#9612;";
+	
 		
 		// Typing detection
 		/*
