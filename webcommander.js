@@ -94,7 +94,7 @@ class WebCommander {
 		this.parentElement = document.getElementById(parent);
 		
 		//Cursor style
-		this.textCursorSymbol = "&#9612;";
+		this.textCursorSymbol = "&block;";
 		
 		// Create the main DIV
 		this.consoleDiv = document.createElement("DIV");
