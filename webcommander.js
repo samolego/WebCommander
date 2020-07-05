@@ -129,7 +129,7 @@ class WebCommander {
 		//this.consoleHiddenInput.setAttribute("maxlength", 1);
 		this.consoleHiddenInput.setAttribute("autocorrect", "off");
 		this.consoleHiddenInput.setAttribute("autocapitalize", "none");
-		this.consoleHiddenInput.style.opacity = 0;
+		this.consoleHiddenInput.style.opacity = 1;
 		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
