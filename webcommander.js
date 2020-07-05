@@ -17,13 +17,13 @@ window.onload = () => {
 		overflow: auto;
 		background-color: black;
 		padding: 10px;
-		font-family: monospace;
+		font-family: 'Source Code Pro', monospace;
 		font-size: large;
 	}
 	.console-text {
 		caret-color: rgb(0, 255, 0);
 		color: rgb(0, 255, 0);
-		font-family: monospace;
+		font-family: 'Source Code Pro', monospace;
 		font-size: large;
 	}
 	.console-feedback-text {
@@ -62,6 +62,11 @@ window.onload = () => {
 	`
 
     document.getElementsByTagName('head')[0].appendChild(style);
+	let fontLink = document.createElement("LINK");
+	fontLink.rel = "stylesheet";
+	fontLink.href = "https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap";
+	document.getElementsByTagName('head')[0].appendChild(fontLink);
+	
     
 }
 
@@ -133,7 +138,7 @@ class WebCommander {
 		this.consoleDiv.appendChild(this.consoleInput);
 		
 		
-			this.consoleDiv.appendChild(this.consoleHiddenInput);
+		this.consoleDiv.appendChild(this.consoleHiddenInput);
 		
 		// Add content to the parent div
 		this.parentElement.appendChild(this.consoleDiv);
@@ -183,7 +188,6 @@ class WebCommander {
 		
 		
     		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
-		//this.consoleHiddenInput.onkeyup = () => this.checkLetter();	
 		
 
 	}
@@ -210,9 +214,6 @@ class WebCommander {
 	}
   }
 
-checkLetter() {
-	this.addCharacter(this.consoleHiddenInput.value);
-}
   nonCharKey(evt) {
     // prevent scrolling on arrow keys
     evt.preventDefault();
@@ -240,14 +241,14 @@ checkLetter() {
 				}
 
     // Up arrow was pressed
-		if(evt.keyCode == 38) {
-			this.selectedCmd++;
-			if(this.usedCmds[this.selectedCmd] != undefined)
-				this.inputValue = this.usedCmds[this.selectedCmd];
-			else {
-				this.inputValue = "";
-				this.selectedCmd < this.usedCmds.length ? this.selectedCmd++: this.selectedCmd = this.usedCmds.length;
-			}
+	if(evt.keyCode == 38) {
+		this.selectedCmd++;
+		if(this.usedCmds[this.selectedCmd] != undefined)
+			this.inputValue = this.usedCmds[this.selectedCmd];
+		else {
+			this.inputValue = "";
+			this.selectedCmd < this.usedCmds.length ? this.selectedCmd++: this.selectedCmd = this.usedCmds.length;
+		}
       this.inputStringIndex = this.inputValue.length;
       this.redrawInput();
 		}
