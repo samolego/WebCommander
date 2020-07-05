@@ -126,7 +126,7 @@ class WebCommander {
 		this.consoleHiddenInput.style.top = "-50px";
 		this.consoleHiddenInput.style.display = "block";
 		this.consoleHiddenInput.setAttribute("autocomplete", "off");
-		this.consoleHiddenInput.setAttribute("maxlength", 1);
+		//this.consoleHiddenInput.setAttribute("maxlength", 1);
 		this.consoleHiddenInput.setAttribute("autocorrect", "off");
 		this.consoleHiddenInput.setAttribute("autocapitalize", "none");
 		this.consoleHiddenInput.style.opacity = 0;
