@@ -310,6 +310,7 @@ class WebCommander {
   }
 
   addCharacter(char) {
+	  alert("new");
     var temp = [this.inputValue.slice(0, this.inputStringIndex), char, this.inputValue.slice(this.inputStringIndex)].join('');
     this.inputValue = temp;
     this.inputStringIndex += char.length;
