@@ -183,6 +183,7 @@ class WebCommander {
 		
 		
     		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
+		this.consoleHiddenInput.onkeypress = (evt) => this.addCharacter(this.consoleHiddenInput.value);	
 		
 
 	}
@@ -201,14 +202,11 @@ class WebCommander {
 */
   // Check if the key is not a character
   checkKeyCode(evt) {
+	this.consoleHiddenInput.value = "";
     	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       		this.nonCharKey(evt);
     	}
-	else {
-    		setTimeout(function(){this.addCharacter(this.consoleHiddenInput.value)}, 5)
-	}
-	this.consoleHiddenInput.value = "";
-    }
+  }
 
   nonCharKey(evt) {
     // prevent scrolling on arrow keys
