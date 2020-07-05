@@ -100,7 +100,7 @@ class WebCommander {
 
 		// Create the P for the content
 		this.consoleText = document.createElement("P");
-		this.consoleText.innerHTML = "Welcome to WebComander";
+		this.consoleText.innerHTML = "Welcome to WebCommander";
 
 		// Create the DIV for the response
 		this.consoleLines = document.createElement("DIV");
@@ -401,7 +401,7 @@ class WebCommander {
 	help(self) {
 		self.writeLine("Available commands:");
 		self.AVAILABLE_COMMANDS_MAP.forEach((_f, c) => {
-			self.consoleLines.append(c.concat(", "));
+			self.consoleLines.append(c.concat(", <br>"));
 		});
 		self.writeLine("", null);
 	}
