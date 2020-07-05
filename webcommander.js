@@ -112,10 +112,13 @@ class WebCommander {
 		// Hidden input field
 			this.consoleHiddenInput = document.createElement("INPUT");
 			this.consoleHiddenInput.style.position = "relative";
+			this.consoleHiddenInpit.type = "email";
 			this.consoleHiddenInput.style.top = "-50px";
 			this.consoleHiddenInput.setAttribute("autocomplete", "off");
 			this.consoleHiddenInput.setAttribute("maxlength", 1);
-			this.consoleHiddenInput.style.opacity = 1;
+			this.consoleHiddenInput.setAttribute("autocorrect", "off");
+			this.consoleHiddenInput.setAttribute("autocapitalize", "none");
+			this.consoleHiddenInput.style.opacity = 0;
 		
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
