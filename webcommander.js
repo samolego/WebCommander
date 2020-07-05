@@ -205,7 +205,7 @@ class WebCommander {
       		this.nonCharKey(evt);
     	}
 	else {
-    		this.consoleHiddenInput.onkeypress = () => this.addCharacter(this.consoleHiddenInput.value);
+    		setTimeout(function(){this.addCharacter(this.consoleHiddenInput.value)}, 5)
 	}
 	this.consoleHiddenInput.value = "";
     }
