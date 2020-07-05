@@ -211,6 +211,7 @@ class WebCommander {
 */
   // Check if the key is not a character
   checkKeyCode(evt) {
+	evt.preventDefault();
 	this.consoleHiddenInput.value = "";
     	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
       		this.nonCharKey(evt);
@@ -401,7 +402,7 @@ class WebCommander {
 	help(self) {
 		self.writeLine("Available commands:");
 		self.AVAILABLE_COMMANDS_MAP.forEach((_f, c) => {
-			self.consoleLines.append(c.concat(", <br>"));
+			self.consoleLines.append(c.concat(", "));
 		});
 		self.writeLine("", null);
 	}
