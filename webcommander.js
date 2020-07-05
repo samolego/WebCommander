@@ -111,7 +111,7 @@ class WebCommander {
     		this.consoleInput.className = "console-input";
 		this.inputValue = "";
   		this.inputStringIndex = 0;
-		this.consoleInput.innerHTML = "&block;";
+		this.consoleInput.innerHTML = this.textCursorSymbol;
 		
 		
 		// Hidden input field
@@ -179,7 +179,10 @@ class WebCommander {
 		// Styling the "username@hostname"
 		this.consoleTyper.style.color = this.getUsernameColor(this);
 		this.consoleTyper.innerText = this.getUsername(this);
-
+		
+		//Cursor style
+		this.textCursorSymbol = "&#9612;";
+		
 		// Typing detection
 		/*
 		this.consoleInput.onkeypress = (evt) => this.consoleTyping(evt);
@@ -318,7 +321,7 @@ class WebCommander {
   }
 
   redrawInput() {
-    this.consoleInput.innerHTML = this.inputValue.substr(0, this.inputStringIndex) + '&block;' + this.inputValue.substr(this.inputStringIndex + 1);
+    this.consoleInput.innerHTML = this.inputValue.substr(0, this.inputStringIndex) + this.textCursorSymbol + this.inputValue.substr(this.inputStringIndex + 1);
   }
 
 	// Main snake of the console - command parser
