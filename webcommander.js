@@ -344,9 +344,9 @@ else {
 	 * Puts new commands to map of available commands
 	 * @param {*} commands an array of {command: "your_command", function: "functionToExecute"} elements
 	 */
-	setCommands(self, commands) {
+	setCommands(commands) {
 		for(let cmd in commands) {
-			self.AVAILABLE_COMMANDS_MAP.set(commands[cmd].command, commands[cmd].function);
+			this.AVAILABLE_COMMANDS_MAP.set(commands[cmd].command, commands[cmd].function);
 		}
 	}
 
