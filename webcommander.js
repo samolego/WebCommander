@@ -122,7 +122,7 @@ class WebCommander {
 		// Hidden input field
 		this.consoleHiddenInput = document.createElement("INPUT");
 		this.consoleHiddenInput.style.position = "absolute";
-		this.consoleHiddenInput.type = "email";
+		this.consoleHiddenInput.type = "text";
 		this.consoleHiddenInput.style.top = "-50px";
 		this.consoleHiddenInput.style.display = "block";
 		this.consoleHiddenInput.setAttribute("autocomplete", "off");
