@@ -6,8 +6,6 @@
  * @author samolego (styles), pg008 (JS integration)
  */
 
-
-
 window.onload = () => {
     let style = document.createElement('style');
     style.type = 'text/css';
@@ -149,7 +147,6 @@ class WebCommander {
 		this.parentElement.appendChild(this.consoleDiv);
 
 		// Declaring commands
-		//todo move most of these to global
 		this.defaultCmds = [
 			{ command: "help", function: 'this.help' }, // 0
 			{ command: "?", function: 'this.help' }, // 1
@@ -194,7 +191,7 @@ class WebCommander {
 		*/
 		
 		
-    		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
+		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
 		this.consoleHiddenInput.oninput = () => this.copyHidden();
 		
 
@@ -424,7 +421,7 @@ async function cd(_self, dir) {
 	url = url.split("/");
 
 	// Cutting away filename (e.g. index.html)
-	if(url[url.length - 1].includes(".")) {
+	if(url[url.length - 1].includes(".") || url[url.length - 1].includes("#")) {
 		url.splice(url.length - 1, url.length);
 	}
 
