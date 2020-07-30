@@ -12,31 +12,55 @@ window.onload = () => {
 	style.innerHTML = `
 	.console {
 		height: 165px;
+		padding-bottom: 20px;
 		overflow: auto;
 		background-color: black;
 		padding: 10px;
 		font-family: 'Source Code Pro', monospace;
 		font-size: large;
+		border: 0px;
+		outline: none;
+		resize: none;
 	}
+
 	.console-text {
 		caret-color: rgb(0, 255, 0);
 		color: rgb(0, 255, 0);
 		font-family: 'Source Code Pro', monospace;
 		font-size: large;
 	}
+
 	.console-feedback-text {
 		color: #ccff33;
 	}
-
 
 	.console-input {
 		border: 0;
 		outline: none;
 		background-color: black;
+		width: 75%;
+		resize: none;
 	}
+
   	console-input:focus {
-    		outline: none;
-  	}
+		outline: none;
+		border: 0;
+	}
+	  
+	.hideBody {
+		margin: 0;
+		height: 100%;
+		overflow: hidden;
+	}
+	.fullscreen {
+		z-index: 9999; 
+		width: 100%; 
+		height: 100%; 
+		position: fixed; 
+		top: 0; 
+		left: 0;
+	}
+
 
 	::-webkit-scrollbar {
 		width: 6px;
@@ -58,25 +82,13 @@ window.onload = () => {
 	}
 
 	`
-
     document.getElementsByTagName('head')[0].appendChild(style);
-	let fontLink = document.createElement("LINK");
-	fontLink.rel = "stylesheet";
-	fontLink.href = "https://fonts.googleapis.com/css?family=Source+Code+Pro&display=swap";
-	document.getElementsByTagName('head')[0].appendChild(fontLink);
-	
-    
 }
 
-
-// Thanks to https://stackoverflow.com/questions/11381673/detecting-a-mobile-browser
-function mobileAndTabletCheck() {
-  let check = false;
-  (function(a){if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino|android|ipad|playbook|silk/i.test(a)||/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(a.substr(0,4))) check = true;})(navigator.userAgent||navigator.vendor||window.opera);
-  return check;
-}
-
-var isMobile = mobileAndTabletCheck();
+// Auto copying text on selection
+document.onselectionchange = () => {
+	document.execCommand("copy");
+};
 
 /*******************
 The main Class
@@ -89,78 +101,74 @@ The main Class
  */
 class WebCommander {
   	constructor(parent) {
+
+		// Whether input should be focused on clicking
+		this.displayMode = false;
+
+		// Used for nano
+		this.editingFile = null;
+
 		this.parentElement = document.getElementById(parent);
-		
-		//Cursor style
-		this.textCursorSymbol = "&block;";
+		this.parentElement.addEventListener('contextmenu', event => {
+			paste(this);
+			event.preventDefault();
+		});
+		//this.parentElement.oncontextmenu = () => paste(this);
 		
 		// Create the main DIV
 		this.consoleDiv = document.createElement("DIV");
 		this.consoleDiv.className = "console console-text";
-
+		
 		// Create the P for the content
 		this.consoleText = document.createElement("P");
-		this.consoleText.innerHTML = "Welcome to WebCommander";
-
+		this.consoleText.innerHTML = "Welcome to WebComander";
+		
 		// Create the DIV for the response
 		this.consoleLines = document.createElement("DIV");
-
+		
 		// Create the SPAN for username
 		this.consoleTyper = document.createElement("SPAN");
-
+		
 		// Create the input field
-		this.consoleInput = document.createElement("SPAN");
-    		this.consoleInput.setAttribute("tabindex", "0");
-    		this.consoleInput.className = "console-input";
-		this.inputValue = "";
-  		this.inputStringIndex = 0;
-		this.consoleInput.innerHTML = this.textCursorSymbol;
-		
-		
-		// Hidden input field
-		this.consoleHiddenInput = document.createElement("INPUT");
-		this.consoleHiddenInput.style.position = "absolute";
-		this.consoleHiddenInput.type = "text";
-		this.consoleHiddenInput.style.top = "-50px";
-		this.consoleHiddenInput.style.display = "block";
-		this.consoleHiddenInput.setAttribute("autocomplete", "off");
-		//this.consoleHiddenInput.setAttribute("maxlength", 1);
-		this.consoleHiddenInput.setAttribute("autocorrect", "off");
-		this.consoleHiddenInput.setAttribute("autocapitalize", "none");
-		this.consoleHiddenInput.style.opacity = 0;
-		
+		this.consoleInput = document.createElement("INPUT");
+		this.consoleInput.type = "text";
+		this.consoleInput.className = "console-text console-input";
+		this.consoleInput.autocomplete = "off";
+		this.consoleInput.autocapitalize = "off";
+		this.consoleInput.spellcheck = false;
+
 		// Focus the input field on click
 		this.parentElement.onclick = () => {
-		
-				this.consoleHiddenInput.focus();
+			if(!this.displayMode)
+				this.consoleInput.focus();
 		}
-
+		
 		this.consoleDiv.appendChild(this.consoleText);
 		this.consoleDiv.appendChild(this.consoleLines);
 		this.consoleDiv.appendChild(this.consoleTyper);
 		this.consoleDiv.appendChild(this.consoleInput);
-		
-		
-		this.consoleDiv.appendChild(this.consoleHiddenInput);
 		
 		// Add content to the parent div
 		this.parentElement.appendChild(this.consoleDiv);
 
 		// Declaring commands
 		this.defaultCmds = [
-			{ command: "help", function: 'this.help' }, // 0
-			{ command: "?", function: 'this.help' }, // 1
-			{ command: "hide", function: 'this.consoleDiv.style.display = "none"' }, // 2
-			{ command: "clear", function: 'this.consoleLines.innerHTML = null' }, // 3
-			{ command: "cd", function: 'cd' }, // 4
-			{ command: "pwd", function: 'pwd' }, // 5
-			{ command: "kill", function: 'kill' }, // 6
-			{ command: "exit", function: 'kill' }, // 7
-			{ command: "ping", function: 'this.writeLine("pong", null)' }, // 8
-			{ command: "extend", function: 'extend' }, // 9
-			{ command: "shrink", function: 'shrink' }, // 10
-			{ command: "sudo", function: 'sudo' }, // 11
-			{ command: "su", function: 'su' } // 12
+			{ command: "help", function: 'this.help' },
+			{ command: "?", function: 'this.help' },
+			{ command: "hide", function: 'this.consoleDiv.style.display = "none"' },
+			{ command: "clear", function: 'this.consoleLines.innerHTML = null' },
+			{ command: "cd", function: 'cd' },
+			{ command: "pwd", function: 'pwd' },
+			{ command: "kill", function: 'kill' },
+			{ command: "exit", function: 'kill' },
+			{ command: "ping", function: 'this.writeLine("pong", null)' },
+			{ command: "extend", function: 'extend' },
+			{ command: "shrink", function: 'shrink' },
+			{ command: "sudo", function: 'sudo' },
+			{ command: "su", function: 'su' },
+			{ command: "ls", function: 'ls' },
+			{ command: "nano", function: 'nano' },
+			{ command: "rm", function: 'rm' }
 		];
 
 		// Main map of commands
@@ -181,155 +189,88 @@ class WebCommander {
 		// Styling the "username@hostname"
 		this.consoleTyper.style.color = this.getUsernameColor(this);
 		this.consoleTyper.innerText = this.getUsername(this);
+
+
+
+		// Editor for nano
+		this.consoleDisplay = document.createElement("DIV");
+		this.consoleDisplayTextArea = document.createElement("TEXTAREA");
+
+		this.consoleDisplayTextArea.className = "console-text console-input";
+		this.consoleDisplayTextArea.style = "width: 100%; font-size: small; height: auto;";
+		this.consoleDisplayTextArea.autocomplete = "off";
+		this.consoleDisplayTextArea.autocapitalize = "off";
+		this.consoleDisplayTextArea.spellcheck = false;
 		
-	
-		
-		// Typing detection
-		/*
-		this.consoleInput.onkeypress = (evt) => this.consoleTyping(evt);
-    		this.consoleInput.onkeydown = (evt) => this.checkKeyCode(evt);
-		*/
-		
-		
-		this.consoleHiddenInput.onkeydown = (evt) => this.checkKeyCode(evt);	
-		this.consoleHiddenInput.oninput = () => this.copyHidden();
-		
+		this.consoleDisplay.appendChild(this.consoleDisplayTextArea);
+
+		// This took to long to figure out ...
+		this.parentElement.onkeydown = (evt) => this.consoleTyping(evt);
 
 	}
 
 	// Thanks to https://stackoverflow.com/questions/7060750/detect-the-enter-key-in-a-text-input-field
-	/*js onkeydown this
 	consoleTyping(evt) {
-    		if (!(evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46)) {
-  			evt = (evt) ? evt : ((event) ? event : null);
-  			var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null
-					var char = String.fromCharCode(evt.keyCode);
-					this.addCharacter(char);
-		     		}
-    			}
-  		}
-*/
-  // Check if the key is not a character
-  checkKeyCode(evt) {
-	this.consoleHiddenInput.value = null;
-    	if (evt.keyCode == 38 || evt.keyCode == 40 || evt.keyCode == 37 || evt.keyCode == 39 || evt.keyCode == 8  || evt.keyCode == 46 || evt.keyCode == 13) {
-      		this.nonCharKey(evt);
-    	} else if (evt.key.length == 1 && !isMobile) {
-		this.addCharacter(evt.key);
-	}
-  }
+		evt = (evt) ? evt : ((event) ? event : null); 
+		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
-	copyHidden() {
-		if (isMobile)
-			this.addCharacter(this.consoleHiddenInput.value);
-	}
-
-  nonCharKey(evt) {
-    // prevent scrolling on arrow keys
-    evt.preventDefault();
-
-    // Enter was pressed
-				if (evt.keyCode == 13)  {
-					// Adding used command to console lines
-					this.writeLine(
-						`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.inputValue}`,
-						"rgb(0, 255, 0)"
-
-					);
-					var c = this.inputValue;
-					if(c != "") {
-						this.usedCmds.unshift(c);
-						this.proccessCommand(c.split(" "));
-					}
-
-					this.selectedCmd = -1;
-					this.inputValue = "";
-					this.inputStringIndex = 0;
-					this.redrawInput();
-					// Scrolling to bottom of console
-					this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
-				}
-
-    // Up arrow was pressed
-	if(evt.keyCode == 38) {
-		this.selectedCmd++;
-		if(this.usedCmds[this.selectedCmd] != undefined)
-			this.inputValue = this.usedCmds[this.selectedCmd];
-		else {
-			this.inputValue = "";
-			this.selectedCmd < this.usedCmds.length ? this.selectedCmd++: this.selectedCmd = this.usedCmds.length;
+		// Enter was pressed
+		if ((evt.keyCode == 13) && (node.type=="text"))  {
+			// Adding used command to console lines
+			this.writeLine(
+				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.consoleInput.value}`,
+				"rgb(0, 255, 0)"
+				);
+			let c = this.consoleInput.value;
+			if(c != "") {
+				this.usedCmds.unshift(c);
+				this.proccessCommand(c.toLowerCase().split(" "));
+			}
+			
+			this.selectedCmd = -1;
+			this.consoleInput.value = null;
+			// Scrolling to bottom of console
+			this.consoleDiv.scrollTop = this.consoleDiv.scrollHeight;
 		}
-      this.inputStringIndex = this.inputValue.length;
-      this.redrawInput();
+
+		// Up arrow was pressed
+		else if(evt.keyCode == 38 && node.type=="text") {
+			this.selectedCmd++;
+			if(this.usedCmds[this.selectedCmd] != undefined)
+				this.consoleInput.value = this.usedCmds[this.selectedCmd];
+			else {
+				this.consoleInput.value = "";
+				this.selectedCmd < this.usedCmds.length ? this.selectedCmd++: this.selectedCmd = this.usedCmds.length;
+			}
 		}
 
 		// Down arrow
-		else if(evt.keyCode == 40) {
+		else if(evt.keyCode == 40 && node.type=="text") {
 			this.selectedCmd--;
 			if(this.usedCmds[this.selectedCmd] != undefined)
-				this.inputValue = this.usedCmds[this.selectedCmd];
+				this.consoleInput.value = this.usedCmds[this.selectedCmd];
 			else {
-				this.inputValue = "";
+				this.consoleInput.value = "";
 				this.selectedCmd > 0 ? this.selectedCmd--: this.selectedCmd = -1;
 			}
-      this.inputStringIndex = this.inputValue.length;
-      this.redrawInput();
 		}
+		// ctrl + x
+		else if((evt.ctrlKey || evt.metaKey) && evt.keyCode == 88 && this.displayMode) {
+			// Showing the typer back
+			this.consoleTyper.style.display = "";
+			this.consoleInput.style.display = "";
 
-    // Left arrow
-	else if (evt.keyCode == 37) {
-	
-     if (this.inputStringIndex >= 1) {
-	   
-  		  this.inputStringIndex -= 1;
-        this.redrawInput();
-      }
+			let edited = document.querySelectorAll(`[data-filename='${this.editingFile}']`)[0];
+			edited.innerHTML = this.consoleDisplayTextArea.value;
+
+			this.consoleDisplayTextArea.readonly = true;
+			this.consoleDisplayTextArea.style.overflow = "hidden";
+			this.displayMode = false;
+
+			this.consoleInput.focus();
 		}
+	}
 
-    // Right arrow
-		else if (evt.keyCode == 39) {
-      if (this.inputStringIndex < this.inputValue.length) {
-  		  this.inputStringIndex += 1;
-        this.redrawInput();
-      }
-		}
-
-    // Backspace
-    else if (evt.keyCode == 8) {
-      this.removeCharacter();
-    }
-
-    // Delete
-    else if (evt.keyCode == 46) {
-      this.deleteCharacter();
-    }
-  }
-
-  addCharacter(char) {
-    var temp = [this.inputValue.slice(0, this.inputStringIndex), char, this.inputValue.slice(this.inputStringIndex)].join('');
-    this.inputValue = temp;
-    this.inputStringIndex += char.length;
-    this.redrawInput();
-  }
-  removeCharacter() {
-    if (this.inputStringIndex >= 1) {
-      var temp = [this.inputValue.slice(0, this.inputStringIndex - 1), this.inputValue.slice(this.inputStringIndex)].join('');
-      this.inputValue = temp;
-      this.inputStringIndex -= 1;
-      this.redrawInput();
-    }
-  }
-  deleteCharacter() {
-    if (this.inputStringIndex <= this.inputValue.length) {
-      var temp = [this.inputValue.slice(0, this.inputStringIndex), this.inputValue.slice(this.inputStringIndex + 1)].join('');
-      this.inputValue = temp;
-      this.redrawInput();
-    }
-  }
-
-  redrawInput() {
-    this.consoleInput.innerHTML = this.inputValue.substr(0, this.inputStringIndex) + this.textCursorSymbol + this.inputValue.substr(this.inputStringIndex + 1);
-  }
 
 	// Main snake of the console - command parser
 	async proccessCommand(cmd) {
@@ -398,7 +339,6 @@ class WebCommander {
 			return "#75ffa5";
 		return "white";
 	}
-
 
 	/* -=-=-=-=-=-=-=-=- */
 
@@ -512,11 +452,105 @@ async function su(self, cmd) {
 }
 
 async function extend(self) {
-	self.consoleDiv.style.height = (window.innerHeight - 20).toString() + "px";
+	self.consoleDiv.classList.add("fullscreen");
+	document.body.classList.add("hideBody");
 	self.writeLine("Using extended mode.", null);
+	try {
+		const element = self.consoleDiv; 
+		const requestFullScreen = element.requestFullscreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+		requestFullScreen.call(element);
+	} catch(e) {
+		// One of the fullscreen calls wasn't supported
+	}
 }
 
 async function shrink(self) {
-	self.consoleDiv.style.height = "165px";
+	self.consoleDiv.classList.remove("fullscreen");
+	document.body.classList.remove("hideBody");
 	self.writeLine("Using shrinked mode.", null);
+	try {
+		// Fullscreen exit
+		const cancellFullScreen = document.exitFullscreen || document.mozCancelFullScreen || document.webkitExitFullscreen || document.msExitFullscreen;
+		cancellFullScreen.call(document);
+	} catch(e) {
+		// One of the fullscreen calls wasn't supported
+	}
+	self.consoleInput.focus();
+}
+
+async function nano(self, file) {
+	file = file[0];
+	
+	let element = document.querySelectorAll(`[data-filename='${file}']`)[0];
+	if(element == null) {
+		// No element using this filename was found, creating new one
+		self.writeLine(`Creating new file: ${file}`, "orange");
+
+		// Creating new element
+		let newFile = document.createElement("DIV");
+		newFile.setAttribute("data-filename", file);
+		document.body.appendChild(newFile);
+
+		// Textarea for input
+		self.consoleDisplayTextArea.innerText = null;
+		self.consoleDisplayTextArea.style.height = "30px"
+	}
+	else {
+		self.consoleDisplayTextArea.innerText = element.innerHTML;
+	}
+
+
+	// Setting the displayMode to prevent losing focus on click
+	self.displayMode = true;
+	self.editingFile = file;
+	document.querySelector("data-" + file);
+
+	self.consoleDisplayTextArea.focus();
+	
+	self.writeLine("GNU nano 0.0.1", null);
+	self.writeLine(file, "blue");
+	self.writeLine("", null);
+
+	
+	self.consoleDisplayTextArea.removeAttribute("readonly");
+
+	//todo - height
+	self.consoleLines.appendChild(self.consoleDisplayTextArea);
+
+	self.writeLine("", null);
+	self.writeLine("<a style='background-color: white; color: black;' onclick='shrink(" + self + ")'>^X</a> Exit", "white");
+
+	// Hiding typer and input
+	self.consoleTyper.style.display = "none";
+	self.consoleInput.style.display = "none";
+}
+
+async function rm(self, file) {
+	file.forEach((f) => {
+		let element = document.querySelectorAll(`[data-filename='${f}']`)[0];
+		self.writeLine(`Removed ${f}`, "orange");
+		element.remove();
+	});
+}
+
+async function ls(self) {
+	self.writeLine("Available files: ", null);
+	for(let element of document.querySelectorAll("[data-filename]")) {
+		self.writeLine(element.getAttribute("data-filename"), "green");
+	}
+}
+
+// Pasting on right-click
+async function paste(self) {
+	navigator.clipboard.readText().then(text => {
+		// Pasting to textarea or input
+		if(!self.displayMode) {
+			self.consoleInput.value += text
+			self.consoleInput.focus();
+		}
+		else {
+			self.consoleDisplayTextArea.value += text
+			self.consoleDisplayTextArea.focus();
+		}
+	});
 }

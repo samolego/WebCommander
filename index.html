@@ -31,7 +31,7 @@
       <div class="section gray-back" id="try">
         <div class="row">
           <div class="container">
-          <div class="one-half column"><h4>Try out some commands!</h4>
+          <div class="one-half column" data-filename="promotion.html"><h4>Try out some commands!</h4>
             <p>Are you a linux user?
             Using this console will be an easy task.<br>
             If you are still wondering how it works, get started with typing "help" and see what you can do.</p>
@@ -46,7 +46,7 @@
 
 
       <div class="section white" style="background-image: url('presentation/wc-background.png'); background-size: cover;">
-        <div class="container white" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
+        <div class="container white" data-filename="instructions.html" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
         <h3>Including on the website</h3>
         <h5>Learn to use the API.</h5>
         <div class="row">
@@ -84,5 +84,11 @@
     firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "this.testFunction");
     firstConsole.AVAILABLE_COMMANDS_MAP.set("global", "globalFunction");
 
+    firstConsole.consoleInput.style.border = 0;
+    firstConsole.consoleInput.style.outline = "none";
+    firstConsole.consoleInput.style.backgroundColor = "black";
+
+    firstConsole.consoelDisplayTextArea.style.border = 0;
+    firstConsole.consoelDisplayTextArea.style.outline = "none";
   </script>
 </html>
