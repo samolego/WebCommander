@@ -12,15 +12,16 @@ window.onload = () => {
 	style.innerHTML = `
 	.console {
 		height: 165px;
-		padding-bottom: 20px;
 		overflow: auto;
 		background-color: black;
 		padding: 10px;
+		padding-bottom: 20px;
 		font-family: 'Source Code Pro', monospace;
 		font-size: large;
 		border: 0px;
 		outline: none;
 		resize: none;
+		word-wrap: break-word;
 	}
 
 	.console-text {
@@ -35,16 +36,16 @@ window.onload = () => {
 	}
 
 	.console-input {
-		border: 0;
+		border: 0; !important
 		outline: none;
 		background-color: black;
-		width: 75%;
+		width: 60%;
 		resize: none;
 	}
 
   	console-input:focus {
-		outline: none;
-		border: 0;
+		outline: none; !important
+		border: 0; !important
 	}
 	  
 	.hideBody {
@@ -85,11 +86,6 @@ window.onload = () => {
     document.getElementsByTagName('head')[0].appendChild(style);
 }
 
-// Auto copying text on selection
-document.onselectionchange = () => {
-	document.execCommand("copy");
-};
-
 /*******************
 The main Class
 ********************/
@@ -108,12 +104,14 @@ class WebCommander {
 		// Used for nano
 		this.editingFile = null;
 
+		// Text that was copied
+		this.copiedText = null;
+
 		this.parentElement = document.getElementById(parent);
 		this.parentElement.addEventListener('contextmenu', event => {
 			paste(this);
 			event.preventDefault();
 		});
-		//this.parentElement.oncontextmenu = () => paste(this);
 		
 		// Create the main DIV
 		this.consoleDiv = document.createElement("DIV");
@@ -125,10 +123,11 @@ class WebCommander {
 		
 		// Create the DIV for the response
 		this.consoleLines = document.createElement("DIV");
+		this.consoleLines.style.padding = "0px";
 		
 		// Create the SPAN for username
 		this.consoleTyper = document.createElement("SPAN");
-		
+
 		// Create the input field
 		this.consoleInput = document.createElement("INPUT");
 		this.consoleInput.type = "text";
@@ -141,6 +140,8 @@ class WebCommander {
 		this.parentElement.onclick = () => {
 			if(!this.displayMode)
 				this.consoleInput.focus();
+			else
+				this.consoleDisplayTextArea.focus();
 		}
 		
 		this.consoleDiv.appendChild(this.consoleText);
@@ -204,6 +205,16 @@ class WebCommander {
 		
 		this.consoleDisplay.appendChild(this.consoleDisplayTextArea);
 
+
+		// Auto copying text on selection
+		document.onselectionchange = () => {
+			var selection = window.getSelection().toString();
+			if(selection != "") {
+				this.copiedText = selection;
+				document.execCommand("copy");
+			}
+		};
+
 		// This took to long to figure out ...
 		this.parentElement.onkeydown = (evt) => this.consoleTyping(evt);
 
@@ -215,7 +226,7 @@ class WebCommander {
 		var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
 
 		// Enter was pressed
-		if ((evt.keyCode == 13) && (node.type=="text"))  {
+		if ((evt.key == "Enter") && (node.type=="text"))  {
 			// Adding used command to console lines
 			this.writeLine(
 				`<span style='color: ${this.getUsernameColor(this)};'> ${this.getUsername(this)}</span>${this.consoleInput.value}`,
@@ -234,7 +245,7 @@ class WebCommander {
 		}
 
 		// Up arrow was pressed
-		else if(evt.keyCode == 38 && node.type=="text") {
+		else if(evt.key == "ArrowUp" && node.type=="text") {
 			this.selectedCmd++;
 			if(this.usedCmds[this.selectedCmd] != undefined)
 				this.consoleInput.value = this.usedCmds[this.selectedCmd];
@@ -245,7 +256,7 @@ class WebCommander {
 		}
 
 		// Down arrow
-		else if(evt.keyCode == 40 && node.type=="text") {
+		else if(evt.key == "ArrowDown" && node.type=="text") {
 			this.selectedCmd--;
 			if(this.usedCmds[this.selectedCmd] != undefined)
 				this.consoleInput.value = this.usedCmds[this.selectedCmd];
@@ -256,18 +267,10 @@ class WebCommander {
 		}
 		// ctrl + x
 		else if((evt.ctrlKey || evt.metaKey) && evt.keyCode == 88 && this.displayMode) {
-			// Showing the typer back
-			this.consoleTyper.style.display = "";
-			this.consoleInput.style.display = "";
-
-			let edited = document.querySelectorAll(`[data-filename='${this.editingFile}']`)[0];
-			edited.innerHTML = this.consoleDisplayTextArea.value;
-
-			this.consoleDisplayTextArea.readonly = true;
-			this.consoleDisplayTextArea.style.overflow = "hidden";
-			this.displayMode = false;
-
-			this.consoleInput.focus();
+			exitNano(this);
+		}
+		else if(evt.key === "Escape") {
+			shrink(this);
 		}
 	}
 
@@ -345,8 +348,13 @@ class WebCommander {
 	/* CONSOLE FUNCTIONS */
 	help(self) {
 		self.writeLine("Available commands:");
-		self.AVAILABLE_COMMANDS_MAP.forEach((_f, c) => {
-			self.consoleLines.append(c.concat(", "));
+		var i = 0;
+		self.AVAILABLE_COMMANDS_MAP.forEach((_f, cmd) => {
+			i++;
+			if(i != self.AVAILABLE_COMMANDS_MAP.size)
+				self.consoleLines.append(cmd.concat(", "));
+			else
+				self.consoleLines.append(cmd);
 		});
 		self.writeLine("", null);
 	}
@@ -428,7 +436,6 @@ async function sudo(self, cmd) {
 }
 
 async function su(self, cmd) {
-	console.log(this);
 	// su - switching user
 	if(cmd[0] == "" || cmd[0] == null)
 		self.username = "root";
@@ -492,11 +499,11 @@ async function nano(self, file) {
 		document.body.appendChild(newFile);
 
 		// Textarea for input
-		self.consoleDisplayTextArea.innerText = null;
+		self.consoleDisplayTextArea.value = null;
 		self.consoleDisplayTextArea.style.height = "30px"
 	}
 	else {
-		self.consoleDisplayTextArea.innerText = element.innerHTML;
+		self.consoleDisplayTextArea.value = element.innerHTML;
 	}
 
 
@@ -518,11 +525,25 @@ async function nano(self, file) {
 	self.consoleLines.appendChild(self.consoleDisplayTextArea);
 
 	self.writeLine("", null);
-	self.writeLine("<a style='background-color: white; color: black;' onclick='shrink(" + self + ")'>^X</a> Exit", "white");
+	self.writeLine(`<span style='background-color: white; color: black;' onclick="exitNano(${self})">^X</span> Exit`, "white");
 
 	// Hiding typer and input
 	self.consoleTyper.style.display = "none";
 	self.consoleInput.style.display = "none";
+}
+
+async function exitNano(self) {
+	// Showing the typer back
+	self.consoleTyper.style.display = "";
+	self.consoleInput.style.display = "";
+
+	let edited = document.querySelectorAll(`[data-filename='${self.editingFile}']`)[0];
+	edited.innerHTML = self.consoleDisplayTextArea.value;
+
+	self.consoleDisplayTextArea.value = null;
+	self.displayMode = false;
+
+	self.consoleInput.focus();
 }
 
 async function rm(self, file) {
@@ -542,15 +563,16 @@ async function ls(self) {
 
 // Pasting on right-click
 async function paste(self) {
-	navigator.clipboard.readText().then(text => {
-		// Pasting to textarea or input
-		if(!self.displayMode) {
-			self.consoleInput.value += text
-			self.consoleInput.focus();
-		}
-		else {
-			self.consoleDisplayTextArea.value += text
-			self.consoleDisplayTextArea.focus();
-		}
-	});
+	// Pasting to textarea or input
+	if(self.copiedText == null) {
+		return;
+	}
+	else if(self.displayMode) {
+		self.consoleDisplayTextArea.focus();
+		self.consoleDisplayTextArea.value += self.copiedText
+	}
+	else {
+		self.consoleInput.focus();
+		self.consoleInput.value += self.copiedText
+	}
 }
