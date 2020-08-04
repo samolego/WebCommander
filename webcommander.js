@@ -235,7 +235,7 @@ class WebCommander {
 			let c = this.consoleInput.value;
 			if(c != "") {
 				this.usedCmds.unshift(c);
-				this.proccessCommand(c.toLowerCase().split(" "));
+				this.proccessCommand(c.split(" "));
 			}
 			
 			this.selectedCmd = -1;
