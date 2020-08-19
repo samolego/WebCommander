@@ -10,86 +10,179 @@
     <link rel="stylesheet" type="text/css" href="presentation/style.css">
     <link rel="stylesheet" type="text/css" href="presentation/prism.css">
     <script src="presentation/prism.js"></script>
-    <script src="https://github.com/samolego/WebCommander/releases/download/1.0.1/webcommander.js"></script>
-    <!--link rel="stylesheet" type="text/css" href="webcommander.css"-->
 </head>
   <body>
       <div class="section" style="background-image: url('presentation/wc-background.png'); background-size: cover;">
         <div class="container white" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
-        <span style="font-size: 3em; color: #25c387;">Web</span><span style="font-size: 3em">Commander</span>
+          <span style="font-size: 3em; color: #25c387;">Web</span><span style="font-size: 3em">Commander</span>
           <p>by samolego and pg008</p>
-            <p>
+          <p>
             Simple, powerful and lightweight terminal emulator for web.<br>Single JS file with easy-to-use API.
-            </p>
-            <div class="row">
-              <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/wiki" target="_blank"><i class="ri-book-2-fill"></i> Learn more!</a></div>
-              <div class="one-third column"><a class="button button-primary" href="#try"><i class="ri-arrow-down-line"></i> Try it out!</a></div>
-              <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/" target="_blank"><i class="ri-github-fill"></i> GitHub</a></div>
-            </div>
-      </div>
+          </p>
+          <div class="row">
+            <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/wiki" target="_blank"><i class="ri-book-2-fill"></i> Learn more!</a></div>
+            <div class="one-third column"><a class="button button-primary" href="#try"><i class="ri-arrow-down-line"></i> Try it out!</a></div>
+            <div class="one-third column"><a class="button button-primary" href="https://github.com/samolego/WebCommander/" target="_blank"><i class="ri-github-fill"></i> GitHub</a></div>
+          </div>
+        </div>
       </div>
 
       <div class="section gray-back" id="try">
         <div class="row">
           <div class="container">
-          <div class="one-half column" data-filename="promotion.html"><h4>Try out some commands!</h4>
-            <p>Are you a linux user?
-            Using this console will be an easy task.<br>
-            If you are still wondering how it works, get started with typing "help" and see what you can do.</p>
+            <div class="one-half column" data-filename="promotion.html"><h4>Try out some commands!</h4>
+              <p>
+                Are you a linux user?
+                Using this console will be an easy task.<br>
+                If you are still wondering how it works, get started with typing "help" and see what you can do.
+              </p>
+            </div>
+            <div class="one-half column" style="text-align: left;">
+              <!-- Console div -->
+              <div id="webCommander">
+                <!-- WebCommander element will be created in here -->
+              </div>
+            </div>
           </div>
-
-          <div class="one-half column" style="text-align: left;"><div id="webCommander">
-          </div></div>
         </div>
-        </div>
-
       </div>
-
 
       <div class="section white" style="background-image: url('presentation/wc-background.png'); background-size: cover;">
         <div class="container white" data-filename="instructions.html" style="background-color: rgba(0,0,0,0.7); padding: 1rem; border-radius: 1em;">
-        <h3>Including on the website</h3>
-        <h5>Learn to use the API.</h5>
-        <div class="row">
-          <div class="one-half column">
-        <pre><code class="language-markup">&lt;div id="myConsoleDiv">&lt;/div></code></pre>
-      </div>
-      <div class="one-half column" style="text-align: left;">
-        <p style="margin-top: 2em;">Create a DIV container for the Console.</p>
-      </div>
-      </div>
+          <h3>Including on the website</h3>
+          <h5>Learn to use the API.</h5>
+          <div class="row">
+            <div class="one-half column">
+              <pre><code class="language-markup">&lt;div id="myConsoleDiv">&lt;/div></code></pre>
+            </div>
+            <div class="one-half column" style="text-align: left;">
+              <p style="margin-top: 2em;">Create a DIV container for the Console.</p>
+            </div>
+          </div>
         </div>
       </div>
-    <!-- Console div -->
-
   </body>
-  <script src="webcommander.js"></script>
   <script>
-    var firstConsole = new WebCommander("webCommander");
+    const webcmd = () => {
+      // WebCommander stuff
+      let firstConsole = new WebCommander("webCommander");
 
-    // Configuring our own function for console
-    firstConsole.testFunction = (self, args) => {
-      console.log(args);
-      self.writeLine("My awesome function. Args passed: " + args.join(" "), "yellow");
+      // Configuring our own function for console
+      firstConsole.testFunction = (self, args) => {
+        console.log(args);
+        self.writeLine("My awesome function. Args passed: " + args.join(" "), "yellow");
+      }
+
+
+      // And global function (available from all consoles)
+      function globalFunction(self) {
+        self.writeLine("This function will be same in all consoles", "orange");
+      }
+
+      // Commands shoud be lowercase
+      // Make sure to not append () at the end of function name
+      // Watch "this" ;) (it should be present in local terminal functions, but not in global)
+      firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "this.testFunction");
+      firstConsole.AVAILABLE_COMMANDS_MAP.set("global", "globalFunction");
+
+      // Applying styles because they are overriden
+      firstConsole.consoleInput.style.border = 0;
+      firstConsole.consoleInput.style.outline = "none";
+      firstConsole.consoleInput.style.backgroundColor = "black";
+
+      firstConsole.consoleDisplayTextArea.style.border = 0;
+      firstConsole.consoleDisplayTextArea.style.outline = "none";
+
+      // Styles from WebCommander to override presentation's ones
+      let style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = `
+      .console {
+        height: 165px;
+        overflow: auto;
+        background-color: black;
+        padding: 10px;
+        padding-bottom: 20px;
+        font-family: 'Source Code Pro', monospace;
+        font-size: large;
+        border: 0px;
+        outline: none;
+        resize: none;
+        word-wrap: break-word;
+      }
+      .console-text {
+        caret-color: rgb(0, 255, 0);
+        color: rgb(0, 255, 0);
+        font-family: 'Source Code Pro', monospace;
+        font-size: large;
+      }
+      .console-feedback-text {
+        color: #ccff33;
+      }
+      .console-input {
+        border: 0; !important
+        outline: none;
+        background-color: black;
+        width: 60%;
+        resize: none;
+      }
+        console-input:focus {
+        outline: none; !important
+        border: 0; !important
+      }
+        
+      .hideBody {
+        margin: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+      .fullscreen {
+        z-index: 9999; 
+        width: 100%; 
+        height: 100%; 
+        position: fixed; 
+        top: 0; 
+        left: 0;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        border-radius: 0px;
+      }
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #01802b;
+      }
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #073f02;
+      }
+      `
+      document.body.appendChild(style);
     }
 
+    // Adding latest WebCommander
+    const xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = () => {
+      if (xhttp.readyState == 4 && xhttp.status == 200) { //
+        let version = xhttp.responseText;
+        version = JSON.parse(version);
+        version = version.tag_name;
 
-    // And global function (available from all consoles)
-    function globalFunction(self) {
-      self.writeLine("This function will be same in all consoles", "orange");
-    }
+        let script  = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = `https://github.com/samolego/WebCommander/releases/download/${version}/webcommander.js`;
+        script.onreadystatechange = webcmd;
+        script.onload = webcmd;
+        
+        document.body.appendChild(script);
+      }
+    };
+    xhttp.open("GET", "https://api.github.com/repos/samolego/webcommander/releases/latest", true);
+    xhttp.send();
 
-    // Commands shoud be lowercase
-    // Make sure to not append () at the end of function name
-    // Watch "this" ;) (it should be present in local terminal functions, but not in global)
-    firstConsole.AVAILABLE_COMMANDS_MAP.set("mycmd", "this.testFunction");
-    firstConsole.AVAILABLE_COMMANDS_MAP.set("global", "globalFunction");
 
-    firstConsole.consoleInput.style.border = 0;
-    firstConsole.consoleInput.style.outline = "none";
-    firstConsole.consoleInput.style.backgroundColor = "black";
-
-    firstConsole.consoelDisplayTextArea.style.border = 0;
-    firstConsole.consoelDisplayTextArea.style.outline = "none";
-  </script>
+    </script>
 </html>
