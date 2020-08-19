@@ -1,5 +1,5 @@
 {
-  "name": "webcommander",
+  "name": "@samo_lego/webcommander",
   "version": "1.0.1",
   "description": "A simple JS terminal emulation.",
   "main": "webcommander.js",

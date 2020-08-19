@@ -1,6 +1,6 @@
 # WebCommander
 
-A simple and lightweight (~ 11 KB) JS console imitation.
+A simple and lightweight (~ 16 KB) JS console imitation.
 [Check it out](https://samolego.github.io/WebCommander)
 
 
