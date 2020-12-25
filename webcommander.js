@@ -36,7 +36,7 @@ window.onload = () => {
 	}
 
 	.console-input {
-		border: 0; !important
+		border: 0 !important;
 		outline: none;
 		background-color: black;
 		width: 60%;
@@ -44,8 +44,8 @@ window.onload = () => {
 	}
 
   	console-input:focus {
-		outline: none; !important
-		border: 0; !important
+		outline: none !important;
+		border: 0 !important;
 	}
 	  
 	.hideBody {
