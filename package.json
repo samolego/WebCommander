@@ -1,6 +1,6 @@
 {
   "name": "@samo_lego/webcommander",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A simple JS terminal emulation.",
   "main": "webcommander.js",
   "scripts": {
@@ -21,4 +21,5 @@
   "bugs": {
     "url": "https://github.com/samolego/WebComander/issues"
   },
-  "homepage": "https://samolego.github.io/WebCommander"}
+  "homepage": "https://samolego.github.io/WebCommander"
+}
