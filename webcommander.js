@@ -95,7 +95,7 @@ The main Class
  *
  * @author pg008 (class & constructor), samolego (methods)
  */
-export class WebCommander {
+class WebCommander {
   	constructor(parent) {
 
 		// Whether input should be focused on clicking
